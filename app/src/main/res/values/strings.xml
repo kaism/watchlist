@@ -1,3 +1,4 @@
 <resources>
 	<string name="app_name">Watchlist</string>
+	<string name="empty_text">Add stock to get started.</string>
 </resources>

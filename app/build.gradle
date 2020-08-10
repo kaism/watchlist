@@ -25,6 +25,7 @@ android {
 dependencies {
     // compatibility
     implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.1.0'
 
     // testing
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
