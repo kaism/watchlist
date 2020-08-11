@@ -42,7 +42,7 @@ public class MainActivityTest {
 	@Test
 	public void button_opens_add_activity() {
 		onView(withId(R.id.fab_add)).perform(click());
-		onView(withText(R.string.add_stock)).check(matches(isDisplayed()));
+		onView(withText(R.string.add_stock_activity_title)).check(matches(isDisplayed()));
 	}
 
 }

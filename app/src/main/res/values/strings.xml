@@ -1,5 +1,9 @@
 <resources>
 	<string name="app_name">Watchlist</string>
 	<string name="empty_text">Add stock to get started.</string>
-	<string name="add_stock">Add stock</string>
+	<string name="add_stock_activity_title">Add stock</string>
+	<string name="ticker_hint">AMD</string>
+	<string name="low_price_hint">20.28</string>
+	<string name="high_price_hint">27.85</string>
+	<string name="save">Save</string>
 </resources>
