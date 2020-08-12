@@ -13,6 +13,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -50,6 +51,25 @@ public class AddStockActivityTest {
 
 		// click save
 		onView(withText(R.string.save)).check(matches(isDisplayed())).perform(click());
+	}
+
+	@Test
+	public void addStock() {
+		String ticker = "AMD";
+		String low_price = "34.81";
+		String high_price = "119.93";
+
+		// fill in form
+		onView(withId(R.id.ticker)).perform(typeText(ticker));
+		onView(withId(R.id.low_price)).perform(typeText(low_price));
+		onView(withId(R.id.high_price)).perform(typeText(high_price));
+
+		// click save
+		onView(withText(R.string.save)).perform(click());
+
+		// see stock in list
+		onView(withId(R.id.recycler_view)).check(matches(isDisplayed()));
+//		onView(withId(R.id.recycler_view)).check(matches(hasDescendant(withText(ticker))));
 	}
 
 }

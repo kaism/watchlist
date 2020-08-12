@@ -32,7 +32,7 @@
 		android:importantForAutofill="no" />
 
 	<Button
-		android:id="@+id/save"
+		android:id="@+id/save_stock"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/save" />
