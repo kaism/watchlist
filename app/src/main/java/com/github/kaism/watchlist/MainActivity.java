@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,8 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
 	private void setOnClickListeners() {
 		// add stock
-		FloatingActionButton fab_add = findViewById(R.id.fab_add);
-		fab_add.setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.button_add_stock).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				startActivity(new Intent(getBaseContext(), AddStockActivity.class));

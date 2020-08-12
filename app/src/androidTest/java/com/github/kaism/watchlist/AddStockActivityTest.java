@@ -26,38 +26,30 @@ public class AddStockActivityTest {
 	public ActivityTestRule<AddStockActivity> activityRule = new ActivityTestRule<>(AddStockActivity.class);
 
 	@Test
-	public void activity_opens() {
+	public void fillInAddForm() {
+		String ticker = "AMD";
+		String low_price = "34.81";
+		String high_price = "119.93";
+
+		// verify activity title is displayed
 		onView(withText(R.string.add_stock_activity_title)).check(matches(isDisplayed()));
-	}
 
-	@Test
-	public void can_enter_a_ticker() {
-		String ticker = "AAPL";
-		onView(withId(R.id.ticker)).check(matches(isDisplayed()))
-				.perform(typeText(ticker));
+		// enter a ticker
+		onView(withId(R.id.ticker)).check(matches(isDisplayed())).perform(typeText(ticker));
+
+		// enter a low price
+		onView(withId(R.id.low_price)).check(matches(isDisplayed())).perform(typeText(low_price));
+
+		// enter a high price
+		onView(withId(R.id.high_price)).check(matches(isDisplayed())).perform(typeText(high_price));
+
+		// verify entered text
 		onView(withText(ticker)).check(matches(isDisplayed()));
-	}
+		onView(withText(low_price)).check(matches(isDisplayed()));
+		onView(withText(high_price)).check(matches(isDisplayed()));
 
-	@Test
-	public void can_enter_a_low_price() {
-		String price = "0.99";
-		onView(withId(R.id.low_price)).check(matches(isDisplayed()))
-				.perform(typeText(price));
-		onView(withText(price)).check(matches(isDisplayed()));
-	}
-
-	@Test
-	public void can_enter_a_high_price() {
-		String price = "100";
-		onView(withId(R.id.high_price)).check(matches(isDisplayed()))
-				.perform(typeText(price));
-		onView(withText(price)).check(matches(isDisplayed()));
-	}
-
-	@Test
-	public void can_click_to_save() {
-		onView(withText(R.string.save)).check(matches(isDisplayed()))
-				.perform(click());
+		// click save
+		onView(withText(R.string.save)).check(matches(isDisplayed())).perform(click());
 	}
 
 }
