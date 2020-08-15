@@ -25,17 +25,17 @@ public class MainActivityTest {
 	public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
 
 	@Test
-	public void openApp() {
+	public void mainActivityDisplay() {
 		// verify app name is displayed
 		onView(withText(R.string.app_name)).check(matches(isDisplayed()));
 
 		// verify get started text is displayed
 		onView(withText(R.string.empty_text)).check(matches(isDisplayed()));
 
-		// button to add a stock is displayed
+		//verify  button to add a stock is displayed
 		onView(withId(R.id.button_add_stock)).check(matches(isDisplayed()));
 
-		// clicking on add button opens add stock activity
+		// verify clicking on add button opens add stock activity
 		onView(withId(R.id.button_add_stock)).perform(click());
 		onView(withText(R.string.add_stock_activity_title)).check(matches(isDisplayed()));
 	}

@@ -22,15 +22,15 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class AddStockActivityTest {
+	private String ticker = "AMD";
+	private String low_price = "34.81";
+	private String high_price = "119.93";
 
 	@Rule
 	public ActivityTestRule<AddStockActivity> activityRule = new ActivityTestRule<>(AddStockActivity.class);
 
 	@Test
 	public void fillInAddForm() {
-		String ticker = "AMD";
-		String low_price = "34.81";
-		String high_price = "119.93";
 
 		// verify activity title is displayed
 		onView(withText(R.string.add_stock_activity_title)).check(matches(isDisplayed()));
@@ -55,10 +55,6 @@ public class AddStockActivityTest {
 
 	@Test
 	public void addStock() {
-		String ticker = "AMD";
-		String low_price = "34.81";
-		String high_price = "119.93";
-
 		// fill in form
 		onView(withId(R.id.ticker)).perform(typeText(ticker));
 		onView(withId(R.id.low_price)).perform(typeText(low_price));
