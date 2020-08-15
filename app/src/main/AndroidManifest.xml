@@ -11,7 +11,8 @@
 		android:theme="@style/AppTheme">
 		<activity
 			android:name=".AddStockActivity"
-			android:parentActivityName=".MainActivity" />
+			android:parentActivityName=".MainActivity"
+			android:label="@string/add_stock_activity_title" />
 		<activity android:name=".MainActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />

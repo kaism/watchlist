@@ -5,11 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".AddStockActivity">
 
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/add_stock_activity_title" />
-
 	<EditText
 		android:id="@+id/ticker"
 		android:layout_width="wrap_content"
