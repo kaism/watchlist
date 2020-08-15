@@ -2,6 +2,7 @@ package com.github.kaism.watchlist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,8 +21,12 @@ public class AddStockActivity extends AppCompatActivity {
         findViewById(R.id.save_stock).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // save
-                // go back to main activity
+                // get value
+                // return data to main activity
+                Intent replyIntent = new Intent();
+                setResult(RESULT_OK, replyIntent);
+
+                finish();
             }
         });
     }
