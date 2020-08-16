@@ -16,12 +16,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ * Stock DAO integration test
+ *
+ * Tests StockDao and its dependencies: RoomDatabase, & Stock (entity)
+ */
 @RunWith(AndroidJUnit4.class)
 public class StockDaoTest {
 	private StockDao stockDao;
@@ -40,6 +44,22 @@ public class StockDaoTest {
 	public void closeDb() {
 		db.close();
 	}
+
+	//TODO: add get all stocks test
+//	@Test
+//	public void getAllStocks() {
+//		// insert multiple stocks
+//		// get all stocks
+//		// verify correct
+//	}
+
+	//TODO: add select one stock test
+//	@Test
+//	public void selectOneStock() {
+//		// insert multiple stocks
+//		// get one stocks
+//		// verify correct
+//	}
 
 	@Test
 	public void insertStock() {
