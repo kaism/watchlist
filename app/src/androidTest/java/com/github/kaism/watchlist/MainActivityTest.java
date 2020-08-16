@@ -25,7 +25,7 @@ public class MainActivityTest {
 	public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
 
 	@Test
-	public void mainActivityDisplay() {
+	public void verifyDisplay() {
 		// verify app name is displayed
 		onView(withText(R.string.app_name)).check(matches(isDisplayed()));
 
