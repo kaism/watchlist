@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void setOnClickListeners() {
-		// add stock
+		// handle add stock button
 		findViewById(R.id.button_add_stock).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+
+		// handle add new stock
 		if (requestCode == NEW_STOCK_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 			Toast.makeText(getApplicationContext(), "Returned OK", Toast.LENGTH_LONG).show();
 		}
