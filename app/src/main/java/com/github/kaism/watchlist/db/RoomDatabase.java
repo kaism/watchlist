@@ -5,7 +5,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 
 
-@Database(entities = {}, version = 1, exportSchema = false)
+@Database(entities = {Stock.class}, version = 1, exportSchema = false)
 public abstract class RoomDatabase extends androidx.room.RoomDatabase {
 	private static RoomDatabase INSTANCE;
 
@@ -21,5 +21,7 @@ public abstract class RoomDatabase extends androidx.room.RoomDatabase {
 		}
 		return INSTANCE;
 	}
+
+	public abstract StockDao getStockDao();
 
 }
