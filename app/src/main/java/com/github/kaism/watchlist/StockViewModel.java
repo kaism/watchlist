@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.github.kaism.watchlist.db.Stock;
 import com.github.kaism.watchlist.db.StockRepository;
+
 import java.util.List;
 
 public class StockViewModel extends AndroidViewModel {
@@ -23,10 +24,16 @@ public class StockViewModel extends AndroidViewModel {
 		return stocks;
 	}
 
-	public void insert(Stock stock) { stockRepository.insert(stock); }
+	public void insert(Stock stock) {
+		stockRepository.insert(stock);
+	}
 
-	public void update(Stock stock) { stockRepository.update(stock); }
+	public void update(Stock stock) {
+		stockRepository.update(stock);
+	}
 
-	public void delete(Stock stock) { stockRepository.delete(stock); }
+	public void delete(Stock stock) {
+		stockRepository.delete(stock);
+	}
 
 }

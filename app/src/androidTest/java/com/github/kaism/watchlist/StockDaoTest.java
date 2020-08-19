@@ -23,7 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Stock DAO integration test
- *
+ * <p>
  * Tests StockDao and its dependencies: RoomDatabase, & Stock (entity)
  */
 @RunWith(AndroidJUnit4.class)
