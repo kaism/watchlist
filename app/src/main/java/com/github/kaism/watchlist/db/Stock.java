@@ -18,6 +18,7 @@ public class Stock {
 		this.symbol = symbol;
 	}
 
+	@NonNull
 	public String getSymbol() {
 		return this.symbol;
 	}

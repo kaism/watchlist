@@ -103,7 +103,7 @@ public class AddStockActivityTest {
 		onView(withText(R.string.app_name)).check(matches(isDisplayed()));
 
 		// see stock in list
-//		onView(withId(R.id.recycler_view)).check(matches(isDisplayed()));
+		onView(withId(R.id.recycler_view)).check(matches(isDisplayed()));
 //		onView(withId(R.id.recycler_view)).check(matches(hasDescendant(withText(ticker))));
 	}
 
