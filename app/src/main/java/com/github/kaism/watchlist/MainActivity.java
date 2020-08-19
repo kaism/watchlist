@@ -3,6 +3,8 @@ package com.github.kaism.watchlist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,12 +25,18 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		// set up recycler view
+		final StockListAdapter adapter = new StockListAdapter(this);
+		RecyclerView recyclerView = findViewById(R.id.recycler_view);
+		recyclerView.setAdapter(adapter);
+		recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 		// set up view model and observer
 		stockViewModel = ViewModelProviders.of(this).get(StockViewModel.class);
 		stockViewModel.getStocks().observe(this, new Observer<List<Stock>>() {
 			@Override
 			public void onChanged(List<Stock> stocks) {
-				Toast.makeText(getApplicationContext(), "list changed", Toast.LENGTH_LONG).show();
+				adapter.setStocks(stocks);
 			}
 		});
 

@@ -25,12 +25,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class AddStockActivityTest {
-	private String ticker = "AMD";
+	private String symbol = "AMD";
 	private String low_price = "34.81";
 	private String high_price = "119.93";
 
 	@Rule
 	public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
+
+	//TODO: set up before/after to create a clean db and destroy it afterward - as it is, this test can only be run once
 
 	@Before
 	public void getHereFromMainActivity() {
@@ -71,8 +73,8 @@ public class AddStockActivityTest {
 		// verify activity title is displayed
 		onView(withText(R.string.add_stock_activity_title)).check(matches(isDisplayed()));
 
-		// enter a ticker
-		onView(withId(R.id.symbol)).check(matches(isDisplayed())).perform(typeText(ticker));
+		// enter a symbol
+		onView(withId(R.id.symbol)).check(matches(isDisplayed())).perform(typeText(symbol));
 
 		// enter a low price
 		onView(withId(R.id.low_price)).check(matches(isDisplayed())).perform(typeText(low_price));
@@ -81,7 +83,7 @@ public class AddStockActivityTest {
 		onView(withId(R.id.high_price)).check(matches(isDisplayed())).perform(typeText(high_price));
 
 		// verify entered text
-		onView(withText(ticker)).check(matches(isDisplayed()));
+		onView(withText(symbol)).check(matches(isDisplayed()));
 		onView(withText(low_price)).check(matches(isDisplayed()));
 		onView(withText(high_price)).check(matches(isDisplayed()));
 
@@ -92,7 +94,7 @@ public class AddStockActivityTest {
 	@Test
 	public void addStock() {
 		// fill in form
-		onView(withId(R.id.symbol)).perform(typeText(ticker));
+		onView(withId(R.id.symbol)).perform(typeText(symbol));
 		onView(withId(R.id.low_price)).perform(typeText(low_price));
 		onView(withId(R.id.high_price)).perform(typeText(high_price));
 
@@ -104,7 +106,7 @@ public class AddStockActivityTest {
 
 		// see stock in list
 		onView(withId(R.id.recycler_view)).check(matches(isDisplayed()));
-//		onView(withId(R.id.recycler_view)).check(matches(hasDescendant(withText(ticker))));
+		onView(withId(R.id.recycler_view)).check(matches(hasDescendant(withText(symbol))));
 	}
 
 }
