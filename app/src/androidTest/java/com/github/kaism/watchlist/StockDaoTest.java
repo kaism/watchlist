@@ -45,22 +45,6 @@ public class StockDaoTest {
 		db.close();
 	}
 
-	//TODO: add get all stocks test
-//	@Test
-//	public void getAllStocks() {
-//		// insert multiple stocks
-//		// get all stocks
-//		// verify correct
-//	}
-
-	//TODO: add select one stock test
-//	@Test
-//	public void selectOneStock() {
-//		// insert multiple stocks
-//		// get one stocks
-//		// verify correct
-//	}
-
 	@Test
 	public void insertStock() {
 		// insert stock

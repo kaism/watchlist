@@ -23,7 +23,7 @@ public class Stock {
 		return this.symbol;
 	}
 
-	public void setSymbol(String symbol) {
+	public void setSymbol(@NonNull String symbol) {
 		this.symbol = symbol;
 	}
 
