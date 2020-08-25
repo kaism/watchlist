@@ -8,8 +8,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "stocks")
 public class Stock {
 
-	@PrimaryKey(autoGenerate = true)
-	protected int id;
+	@PrimaryKey
 	@NonNull
 	@ColumnInfo(name = "symbol")
 	private String symbol;
@@ -21,10 +20,6 @@ public class Stock {
 	@NonNull
 	public String getSymbol() {
 		return this.symbol;
-	}
-
-	public void setSymbol(@NonNull String symbol) {
-		this.symbol = symbol;
 	}
 
 }

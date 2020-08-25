@@ -57,23 +57,6 @@ public class StockDaoTest {
 	}
 
 	@Test
-	public void updateStock() {
-		// insert stock
-		String symbol_incorrect = "APL";
-		Stock stock = new Stock(symbol_incorrect);
-		stockDao.insert(stock);
-
-		// update symbol
-		stock = stockDao.selectOne().get(0);
-		stock.setSymbol(symbol);
-		stockDao.update(stock);
-
-		// verify updated
-		stock = stockDao.selectOne().get(0);
-		assertThat(stock.getSymbol(), equalTo(symbol));
-	}
-
-	@Test
 	public void deleteStock() {
 		// insert
 		Stock stock = new Stock(symbol);
@@ -86,6 +69,21 @@ public class StockDaoTest {
 		// verify not in db
 		List<Stock> empty = stockDao.selectOne();
 		assertThat(empty.size(), equalTo(0));
+	}
+
+	@Test
+	public void updateOnDuplicate() {
+		// insert stock
+		Stock stock = new Stock(symbol);
+		stockDao.insert(stock);
+
+		// insert duplicate stock
+		stock = new Stock(symbol);
+		stockDao.insert(stock);
+
+		// verify only one
+		List<Stock> stocks = stockDao.selectBySymbol(symbol);
+		assertThat(stocks.size(), equalTo(1));
 	}
 
 }

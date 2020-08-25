@@ -18,6 +18,9 @@ public interface StockDao {
 	@Query("SELECT * from stocks limit 1")
 	List<Stock> selectOne();
 
+	@Query("SELECT * from stocks where symbol=:symbol")
+	List<Stock> selectBySymbol(String symbol);
+
 	@Insert(onConflict = OnConflictStrategy.IGNORE)
 	void insert(Stock stock);
 
