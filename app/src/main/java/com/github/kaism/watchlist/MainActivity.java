@@ -1,11 +1,15 @@
 package com.github.kaism.watchlist;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -41,6 +45,22 @@ public class MainActivity extends AppCompatActivity {
 		});
 
 		setOnClickListeners();
+
+		// set delete item action with swipe
+		ItemTouchHelper helper = new ItemTouchHelper(
+				new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+					@Override
+					public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder,
+										  @NonNull RecyclerView.ViewHolder target) {
+						return false;
+					}
+					@Override
+					public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+						Stock stock = adapter.getStockAtPosition(viewHolder.getAdapterPosition());
+						confirmDelete(stock);
+					}
+				});
+		helper.attachToRecyclerView(recyclerView);
 	}
 
 	private void setOnClickListeners() {
@@ -70,5 +90,24 @@ public class MainActivity extends AppCompatActivity {
 				Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
 			}
 		}
+	}
+
+	private void confirmDelete(final Stock stock) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this)
+				.setMessage(getString(R.string.dialog_question_confirm_delete_stock))
+				.setPositiveButton(R.string.dialog_button_delete, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						Toast.makeText(MainActivity.this, "Deleting " + stock.getSymbol(), Toast.LENGTH_LONG).show();
+						stockViewModel.delete(stock);
+					}
+				})
+				.setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						Toast.makeText(MainActivity.this, "Canceled", Toast.LENGTH_LONG).show();
+					}
+				});
+		builder.show();
 	}
 }

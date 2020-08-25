@@ -40,6 +40,10 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 		notifyDataSetChanged();
 	}
 
+	public Stock getStockAtPosition(int position) {
+		return stocks.get(position);
+	}
+
 	@Override
 	public int getItemCount() {
 		if (stocks != null) {
