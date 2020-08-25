@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="match_parent"
-	android:layout_height="wrap_content">
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+	android:minHeight="64dp" >
 
 	<TextView
 		android:id="@+id/symbol"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="HELO" />
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:text="XML"
+		android:gravity="center"
+		android:paddingEnd="24dp"
+		tools:ignore="RtlSymmetry" />
+
+	<TextView
+		android:id="@+id/low_price"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:text="10.00"
+		android:gravity="center_vertical"
+		android:textAlignment="viewStart"
+		tools:ignore="RtlCompat" />
+
+	<TextView
+		android:id="@+id/high_price"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:text="20.00"
+		android:gravity="center_vertical"
+		android:textAlignment="viewEnd"
+		tools:ignore="RtlCompat" />
 
 </LinearLayout>
