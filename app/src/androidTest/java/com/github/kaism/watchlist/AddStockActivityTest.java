@@ -32,8 +32,6 @@ public class AddStockActivityTest {
 	@Rule
 	public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
 
-	//TODO: set up before/after to create a clean db and destroy it afterward - as it is, this test can only be run once
-
 	@Before
 	public void getHereFromMainActivity() {
 		onView(withId(R.id.button_add_stock)).perform(click());
