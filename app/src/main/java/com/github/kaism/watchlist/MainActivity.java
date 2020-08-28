@@ -41,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onChanged(List<Stock> stocks) {
 				adapter.setStocks(stocks);
+
+				if (adapter.getItemCount() > 0) {
+					findViewById(R.id.empty_text).setVisibility(View.GONE);
+				}
 			}
 		});
 
