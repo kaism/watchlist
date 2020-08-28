@@ -1,15 +1,11 @@
 package com.github.kaism.watchlist;
 
-
 import androidx.test.espresso.Espresso;
-import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -21,16 +17,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-
-@RunWith(AndroidJUnit4.class)
-@LargeTest
 public class AddStockActivityTest {
 	private String symbol = "AMD";
 	private String low_price = "34.81";
 	private String high_price = "119.93";
 
 	@Rule
-	public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
+	public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
 
 	@Before
 	public void getHereFromMainActivity() {

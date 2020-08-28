@@ -1,13 +1,9 @@
 package com.github.kaism.watchlist;
 
-
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -16,13 +12,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-
-@RunWith(AndroidJUnit4.class)
-@LargeTest
 public class MainActivityTest {
 
 	@Rule
-	public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
+	public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
 
 	@Test
 	public void verifyDisplay() {
