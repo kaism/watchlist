@@ -16,7 +16,7 @@
 		tools:ignore="RtlSymmetry" />
 
 	<TextView
-		android:id="@+id/low_price"
+		android:id="@+id/lowPrice"
 		android:layout_width="0dp"
 		android:layout_height="match_parent"
 		android:layout_weight="1"
@@ -26,7 +26,7 @@
 		tools:ignore="RtlCompat" />
 
 	<TextView
-		android:id="@+id/high_price"
+		android:id="@+id/highPrice"
 		android:layout_width="0dp"
 		android:layout_height="match_parent"
 		android:layout_weight="1"

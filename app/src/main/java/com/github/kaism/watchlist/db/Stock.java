@@ -13,6 +13,12 @@ public class Stock {
 	@ColumnInfo(name = "symbol")
 	private String symbol;
 
+	@ColumnInfo(name = "lowPrice")
+	private String lowPrice;
+
+	@ColumnInfo(name = "highPrice")
+	private String highPrice;
+
 	public Stock(@NonNull String symbol) {
 		this.symbol = symbol;
 	}
@@ -22,4 +28,19 @@ public class Stock {
 		return this.symbol;
 	}
 
+	public String getLowPrice() {
+		return this.lowPrice;
+	}
+
+	public String getHighPrice() {
+		return this.highPrice;
+	}
+
+	public void setLowPrice(String price) {
+		this.lowPrice = price;
+	}
+
+	public void setHighPrice(String price) {
+		this.highPrice = price;
+	}
 }

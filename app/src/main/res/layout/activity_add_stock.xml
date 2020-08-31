@@ -13,14 +13,14 @@
 		android:importantForAutofill="no" />
 
 	<EditText
-		android:id="@+id/low_price"
+		android:id="@+id/lowPrice"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:hint="@string/low_price_hint"
 		android:importantForAutofill="no" />
 
 	<EditText
-		android:id="@+id/high_price"
+		android:id="@+id/highPrice"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:hint="@string/high_price_hint"

@@ -32,6 +32,8 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 		if (stocks != null) {
 			Stock current = stocks.get(position);
 			holder.symbolView.setText(current.getSymbol());
+			holder.lowPriceView.setText(current.getLowPrice());
+			holder.highPriceView.setText(current.getHighPrice());
 		}
 	}
 
@@ -54,10 +56,14 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 
 	static class StockViewHolder extends RecyclerView.ViewHolder {
 		private final TextView symbolView;
+		private final TextView lowPriceView;
+		private final TextView highPriceView;
 
 		private StockViewHolder(@NonNull View itemView) {
 			super(itemView);
 			symbolView = itemView.findViewById(R.id.symbol);
+			lowPriceView = itemView.findViewById(R.id.lowPrice);
+			highPriceView = itemView.findViewById(R.id.highPrice);
 		}
 	}
 }

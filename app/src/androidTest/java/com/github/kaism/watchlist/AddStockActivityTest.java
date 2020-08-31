@@ -40,8 +40,8 @@ public class AddStockActivityTest {
 
 		// verify form elements are displayed
 		onView(withId(R.id.symbol)).check(matches(isDisplayed()));
-		onView(withId(R.id.low_price)).check(matches(isDisplayed()));
-		onView(withId(R.id.high_price)).check(matches(isDisplayed()));
+		onView(withId(R.id.lowPrice)).check(matches(isDisplayed()));
+		onView(withId(R.id.highPrice)).check(matches(isDisplayed()));
 		onView(withText(R.string.save)).check(matches(isDisplayed()));
 	}
 
@@ -68,10 +68,10 @@ public class AddStockActivityTest {
 		onView(withId(R.id.symbol)).check(matches(isDisplayed())).perform(typeText(symbol));
 
 		// enter a low price
-		onView(withId(R.id.low_price)).check(matches(isDisplayed())).perform(typeText(low_price));
+		onView(withId(R.id.lowPrice)).check(matches(isDisplayed())).perform(typeText(low_price));
 
 		// enter a high price
-		onView(withId(R.id.high_price)).check(matches(isDisplayed())).perform(typeText(high_price));
+		onView(withId(R.id.highPrice)).check(matches(isDisplayed())).perform(typeText(high_price));
 
 		// verify entered text
 		onView(withText(symbol)).check(matches(isDisplayed()));
@@ -86,8 +86,8 @@ public class AddStockActivityTest {
 	public void addStock() {
 		// fill in form
 		onView(withId(R.id.symbol)).perform(typeText(symbol));
-		onView(withId(R.id.low_price)).perform(typeText(low_price));
-		onView(withId(R.id.high_price)).perform(typeText(high_price));
+		onView(withId(R.id.lowPrice)).perform(typeText(low_price));
+		onView(withId(R.id.highPrice)).perform(typeText(high_price));
 
 		// click save
 		onView(withText(R.string.save)).perform(click());

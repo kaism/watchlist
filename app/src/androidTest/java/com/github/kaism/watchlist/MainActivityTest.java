@@ -9,12 +9,17 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.hasSibling;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 
 public class MainActivityTest {
+	private String symbol = "AMD";
+	private String low_price = "34.81";
+	private String high_price = "119.93";
 
 	@Rule
 	public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
@@ -42,15 +47,19 @@ public class MainActivityTest {
 		onView(withText(R.string.empty_text)).check(matches(not(isDisplayed())));
 	}
 
-	private void addStock() {
-		String symbol = "AMD";
-		String low_price = "34.81";
-		String high_price = "119.93";
+	@Test
+	public void listItem() {
+		addStock();
+		onView(withId(R.id.recycler_view)).check(matches(hasDescendant(withText(symbol))));
+		onView(withText(symbol)).check(matches(hasSibling(withText(low_price))));
+		onView(withText(symbol)).check(matches(hasSibling(withText(high_price))));
+	}
 
+	private void addStock() {
 		onView(withId(R.id.button_add_stock)).perform(click());
 		onView(withId(R.id.symbol)).perform(typeText(symbol));
-		onView(withId(R.id.low_price)).perform(typeText(low_price));
-		onView(withId(R.id.high_price)).perform(typeText(high_price));
+		onView(withId(R.id.lowPrice)).perform(typeText(low_price));
+		onView(withId(R.id.highPrice)).perform(typeText(high_price));
 		onView(withText(R.string.save)).perform(click());
 	}
 

@@ -86,8 +86,12 @@ public class MainActivity extends AppCompatActivity {
 		// handle add new stock
 		if (requestCode == NEW_STOCK_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 			String symbol = data.getStringExtra(AddStockActivity.SYMBOL);
+			String low_price = data.getStringExtra(AddStockActivity.LOW_PRICE);
+			String high_price = data.getStringExtra(AddStockActivity.HIGH_PRICE);
 			if (symbol != null && !symbol.equals("")) {
 				Stock stock = new Stock(symbol);
+				stock.setLowPrice(low_price);
+				stock.setHighPrice(high_price);
 				stockViewModel.insert(stock);
 				Toast.makeText(getApplicationContext(), symbol + " added", Toast.LENGTH_LONG).show();
 			} else {
