@@ -26,14 +26,9 @@ public class AddStockActivity extends AppCompatActivity {
 		findViewById(R.id.save_stock).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				EditText symbolEditText = findViewById(R.id.symbol);
-				String symbol = symbolEditText.getText().toString().toUpperCase();
-
-				EditText lowPriceEditText = findViewById(R.id.lowPrice);
-				String lowPrice = lowPriceEditText.getText().toString();
-
-				EditText highPriceEditText = findViewById(R.id.highPrice);
-				String highPrice = highPriceEditText.getText().toString();
+				String symbol = getString((EditText) findViewById(R.id.symbol)).toUpperCase();
+				int lowPrice = stringToPrice(getString((EditText) findViewById(R.id.lowPrice)));
+				int highPrice = stringToPrice(getString((EditText) findViewById(R.id.highPrice)));
 
 				// return data to main activity
 				Intent replyIntent = new Intent();
@@ -45,5 +40,21 @@ public class AddStockActivity extends AppCompatActivity {
 				finish();
 			}
 		});
+	}
+
+	private String getString(EditText editText) {
+		return editText.getText().toString();
+	}
+
+	private int stringToPrice(String string) {
+		if (string != null){
+			String[] arr = string.split("\\.");
+			if (arr.length == 1) {
+				return Integer.parseInt(arr[0].concat("00"));
+			} else if (arr.length == 2) {
+				return Integer.parseInt(arr[0].concat(arr[1]));
+			}
+		}
+		return 0;
 	}
 }

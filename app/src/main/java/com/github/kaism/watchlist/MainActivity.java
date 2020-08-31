@@ -86,12 +86,12 @@ public class MainActivity extends AppCompatActivity {
 		// handle add new stock
 		if (requestCode == NEW_STOCK_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 			String symbol = data.getStringExtra(AddStockActivity.SYMBOL);
-			String low_price = data.getStringExtra(AddStockActivity.LOW_PRICE);
-			String high_price = data.getStringExtra(AddStockActivity.HIGH_PRICE);
+			int lowPrice = data.getIntExtra(AddStockActivity.LOW_PRICE, 0);
+			int highPrice = data.getIntExtra(AddStockActivity.HIGH_PRICE, 0);
 			if (symbol != null && !symbol.equals("")) {
 				Stock stock = new Stock(symbol);
-				stock.setLowPrice(low_price);
-				stock.setHighPrice(high_price);
+				stock.setLowPrice(lowPrice);
+				stock.setHighPrice(highPrice);
 				stockViewModel.insert(stock);
 				Toast.makeText(getApplicationContext(), symbol + " added", Toast.LENGTH_LONG).show();
 			} else {
@@ -118,4 +118,5 @@ public class MainActivity extends AppCompatActivity {
 				});
 		builder.show();
 	}
+
 }

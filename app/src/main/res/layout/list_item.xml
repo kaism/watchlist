@@ -8,11 +8,12 @@
 
 	<TextView
 		android:id="@+id/symbol"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="match_parent"
 		android:text="XML"
 		android:gravity="center"
-		android:paddingEnd="24dp"
+		android:layout_weight="2"
+		android:background="@color/grey1"
 		tools:ignore="RtlSymmetry" />
 
 	<TextView
@@ -23,6 +24,84 @@
 		android:text="10.00"
 		android:gravity="center_vertical"
 		android:textAlignment="viewStart"
+		android:background="@color/red"
+		tools:ignore="RtlCompat" />
+
+	<TextView
+		android:id="@+id/price1"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:text="11.25"
+		android:gravity="center_vertical"
+		android:textAlignment="center"
+		android:background="@color/red"
+		tools:ignore="RtlCompat" />
+
+	<TextView
+		android:id="@+id/price2"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:text="12.50"
+		android:gravity="center_vertical"
+		android:textAlignment="center"
+		android:background="@color/red"
+		tools:ignore="RtlCompat" />
+
+	<TextView
+		android:id="@+id/price3"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:text="13.75"
+		android:gravity="center_vertical"
+		android:textAlignment="center"
+		android:background="@color/green"
+		tools:ignore="RtlCompat" />
+
+	<TextView
+		android:id="@+id/midPrice"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:text="15.00"
+		android:gravity="center_vertical"
+		android:textAlignment="center"
+		android:background="@color/green"
+		tools:ignore="RtlCompat" />
+
+	<TextView
+		android:id="@+id/price5"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:text="16.25"
+		android:gravity="center_vertical"
+		android:textAlignment="center"
+		android:background="@color/green"
+		tools:ignore="RtlCompat" />
+
+	<TextView
+		android:id="@+id/price6"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:text="17.50"
+		android:gravity="center_vertical"
+		android:textAlignment="center"
+		android:background="@color/green"
+		tools:ignore="RtlCompat" />
+
+	<TextView
+		android:id="@+id/price7"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:text="18.75"
+		android:gravity="center_vertical"
+		android:textAlignment="center"
+		android:background="@color/green"
 		tools:ignore="RtlCompat" />
 
 	<TextView
@@ -33,6 +112,7 @@
 		android:text="20.00"
 		android:gravity="center_vertical"
 		android:textAlignment="viewEnd"
+		android:background="@color/green"
 		tools:ignore="RtlCompat" />
 
 </LinearLayout>
