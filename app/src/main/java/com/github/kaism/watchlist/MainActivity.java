@@ -1,5 +1,11 @@
 package com.github.kaism.watchlist;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,12 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.kaism.watchlist.db.Stock;
 
@@ -23,6 +24,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 	private static final int NEW_STOCK_ACTIVITY_REQUEST_CODE = 1;
 	private StockViewModel stockViewModel;
+
+	SwipeRefreshLayout mSwipeRefreshLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 										  @NonNull RecyclerView.ViewHolder target) {
 						return false;
 					}
+
 					@Override
 					public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 						Stock stock = adapter.getStockAtPosition(viewHolder.getAdapterPosition());
@@ -65,6 +69,17 @@ public class MainActivity extends AppCompatActivity {
 					}
 				});
 		helper.attachToRecyclerView(recyclerView);
+
+		// set up pull to refresh
+		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
+		mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				Toast.makeText(MainActivity.this, "REFRESHING...", Toast.LENGTH_LONG).show();
+				mSwipeRefreshLayout.setRefreshing(false);
+			}
+		});
+
 	}
 
 	private void setOnClickListeners() {
