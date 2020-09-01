@@ -6,7 +6,6 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import java.util.List;
 
@@ -24,8 +23,8 @@ public interface StockDao {
 	@Insert(onConflict = OnConflictStrategy.IGNORE)
 	void insert(Stock stock);
 
-	@Update
-	void update(Stock... stock);
+	@Query("UPDATE stocks SET currentPrice = :price WHERE symbol = :symbol")
+	void updatePrice(String symbol, int price);
 
 	@Delete
 	void delete(Stock stock);

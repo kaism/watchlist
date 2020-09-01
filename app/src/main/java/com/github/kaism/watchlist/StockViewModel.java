@@ -28,8 +28,8 @@ public class StockViewModel extends AndroidViewModel {
 		stockRepository.insert(stock);
 	}
 
-	public void update(Stock stock) {
-		stockRepository.update(stock);
+	public void updatePrice(String symbol, int price) {
+		stockRepository.updatePrice(symbol, price);
 	}
 
 	public void delete(Stock stock) {
