@@ -1,0 +1,7 @@
+// docs: https://iexcloud.io/docs/api/
+// base url to api (always include final '/')
+QUOTEAPI_URL="https://XXX.XXX.XXX/XXX/XXX/XXX/"
+
+// api key
+QUOTEAPI_KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+

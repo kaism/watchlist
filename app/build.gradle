@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+// load local config file
+def configPropertiesFile = rootProject.file("config.properties")
+def configProperties = new Properties()
+configProperties.load(new FileInputStream(configPropertiesFile))
+
 android {
 	compileSdkVersion 29
 	buildToolsVersion '29.0.3'
@@ -17,6 +22,10 @@ android {
 		// "pm clear" command after each test invocation. This command ensures
 		// that the app's state is completely cleared between tests.
 		testInstrumentationRunnerArguments clearPackageData: 'true'
+
+		// get api urls and keys from local config file
+		buildConfigField('String', 'QUOTEAPI_URL', configProperties['QUOTEAPI_URL'])
+		buildConfigField('String', 'QUOTEAPI_KEY', configProperties['QUOTEAPI_KEY'])
 	}
 
 	testOptions {
