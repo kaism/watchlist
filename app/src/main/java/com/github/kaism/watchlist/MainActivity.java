@@ -2,6 +2,7 @@ package com.github.kaism.watchlist;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -18,13 +19,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.kaism.watchlist.db.Stock;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
 	private static final int NEW_STOCK_ACTIVITY_REQUEST_CODE = 1;
 	private StockViewModel stockViewModel;
-
 	SwipeRefreshLayout mSwipeRefreshLayout;
 
 	@Override
@@ -70,13 +71,13 @@ public class MainActivity extends AppCompatActivity {
 				});
 		helper.attachToRecyclerView(recyclerView);
 
-		// set up pull to refresh
+		// set up swipe to refresh
+		final MainActivity activity = this;
 		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
 		mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
-				Toast.makeText(MainActivity.this, "REFRESHING...", Toast.LENGTH_LONG).show();
-				mSwipeRefreshLayout.setRefreshing(false);
+				new Refresh(activity).execute();
 			}
 		});
 
@@ -132,6 +133,43 @@ public class MainActivity extends AppCompatActivity {
 					}
 				});
 		builder.show();
+	}
+
+	private static class Refresh extends AsyncTask<Void, Integer, Boolean> {
+		private WeakReference<MainActivity> activityReference;
+		Refresh(MainActivity activity) {
+			activityReference = new WeakReference<>(activity);
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... voids) {
+			for (int i = 0; i < 5; i++) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				// Escape early if cancel() is called
+				if (isCancelled()) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		protected void onPostExecute(Boolean success) {
+			// get a reference to the activity if it is still there
+			MainActivity activity = activityReference.get();
+			if (activity == null || activity.isFinishing()) return;
+
+			// modify the activity's UI
+			activity.mSwipeRefreshLayout.setRefreshing(false);
+			if (success) {
+				Toast.makeText(activity, "Success!", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(activity, "Failed", Toast.LENGTH_SHORT).show();
+			}
+		}
 	}
 
 }
