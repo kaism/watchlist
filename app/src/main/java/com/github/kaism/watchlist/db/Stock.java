@@ -19,6 +19,9 @@ public class Stock {
 	@ColumnInfo(name = "highPrice")
 	private int highPrice;
 
+	@ColumnInfo(name = "currentPrice")
+	private int currentPrice;
+
 	public Stock(@NonNull String symbol) {
 		this.symbol = symbol;
 	}
@@ -32,6 +35,10 @@ public class Stock {
 		return this.lowPrice;
 	}
 
+	public int getCurrentPrice() {
+		return this.currentPrice;
+	}
+
 	public int getHighPrice() {
 		return this.highPrice;
 	}
@@ -42,5 +49,9 @@ public class Stock {
 
 	public void setHighPrice(int price) {
 		this.highPrice = price;
+	}
+
+	public void setCurrentPrice(int price) {
+		this.currentPrice = price;
 	}
 }
