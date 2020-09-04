@@ -117,11 +117,7 @@ public class MainActivity extends AppCompatActivity {
 				Map<String, Quote> quotes = response.body();
 				if (quotes != null && quotes.size() > 0) {
 					for (Map.Entry<String, Quote> entry : quotes.entrySet()) {
-						// get quote
-						String symbol = entry.getKey();
-						Quote quote = entry.getValue();
-						String price = quote.getPrice();
-						Toast.makeText(getApplicationContext(), symbol + " " + price, Toast.LENGTH_SHORT).show();
+						stockViewModel.updatePrice(entry.getKey(), Utils.stringToPrice(entry.getValue().getPrice()));
 					}
 				} else {
 					Toast.makeText(getApplicationContext(), R.string.error_no_quotes, Toast.LENGTH_SHORT).show();

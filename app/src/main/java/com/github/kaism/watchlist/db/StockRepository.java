@@ -40,21 +40,25 @@ public class StockRepository {
 		}
 	}
 
-	// update
-	public void update(Stock stock) {
-		new updateAsyncTask(stockDao).execute(stock);
+	// updatePrice
+	public void updatePrice(String symbol, int price) {
+		new updatePriceAsyncTask(stockDao, symbol, price).execute();
 	}
 
-	private static class updateAsyncTask extends AsyncTask<Stock, Void, Void> {
+	private static class updatePriceAsyncTask extends AsyncTask<String, Void, Void> {
 		private StockDao asyncTaskDao;
+		private String symbol;
+		private int price;
 
-		updateAsyncTask(StockDao dao) {
+		updatePriceAsyncTask(StockDao dao, String symbol, int price) {
 			asyncTaskDao = dao;
+			this.symbol = symbol;
+			this.price = price;
 		}
 
 		@Override
-		protected Void doInBackground(final Stock... params) {
-			asyncTaskDao.update(params[0]);
+		protected Void doInBackground(final String... params) {
+			asyncTaskDao.updatePrice(this.symbol, this.price);
 			return null;
 		}
 	}
