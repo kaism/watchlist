@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,16 +18,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.github.kaism.watchlist.api.ApiClient;
+import com.github.kaism.watchlist.api.ApiInterface;
+import com.github.kaism.watchlist.api.Quote;
 import com.github.kaism.watchlist.db.Stock;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
 	private static final int NEW_STOCK_ACTIVITY_REQUEST_CODE = 1;
 	private StockViewModel stockViewModel;
 	SwipeRefreshLayout mSwipeRefreshLayout;
+	private ApiInterface apiInterface;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
+		// configure api
+		apiInterface = ApiClient.getClient().create(ApiInterface.class);
+
 	}
 
 	private void setOnClickListeners() {
@@ -94,6 +107,36 @@ public class MainActivity extends AppCompatActivity {
 				);
 			}
 		});
+	}
+
+	private void getQuotes() {
+		Call<Map<String, Quote>> call = apiInterface.getQuotes(getSymbols());
+		call.enqueue(new Callback<Map<String, Quote>>() {
+			@Override
+			public void onResponse(@NonNull Call<Map<String, Quote>> call, @NonNull Response<Map<String, Quote>> response) {
+				Map<String, Quote> quotes = response.body();
+				if (quotes != null && quotes.size() > 0) {
+					for (Map.Entry<String, Quote> entry : quotes.entrySet()) {
+						// get quote
+						String symbol = entry.getKey();
+						Quote quote = entry.getValue();
+						String price = quote.getPrice();
+						Toast.makeText(getApplicationContext(), symbol + " " + price, Toast.LENGTH_SHORT).show();
+					}
+				} else {
+					Toast.makeText(getApplicationContext(), R.string.error_no_quotes, Toast.LENGTH_SHORT).show();
+				}
+			}
+
+			@Override
+			public void onFailure(@NonNull Call<Map<String, Quote>> call, @NonNull Throwable t) {
+				Log.d("KDBUG", "onFailure: " + t.getMessage());
+			}
+		});
+	}
+
+	private String getSymbols() {
+		return "amd,msft";
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -143,22 +186,13 @@ public class MainActivity extends AppCompatActivity {
 
 		@Override
 		protected Boolean doInBackground(Void... voids) {
-			for (int i = 0; i < 5; i++) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				// Escape early if cancel() is called
-				if (isCancelled()) {
-					return false;
-				}
-			}
+			MainActivity activity = activityReference.get();
+			if (activity == null || activity.isFinishing()) return false;
+			activity.getQuotes();
 			return true;
 		}
 
 		protected void onPostExecute(Boolean success) {
-			// get a reference to the activity if it is still there
 			MainActivity activity = activityReference.get();
 			if (activity == null || activity.isFinishing()) return;
 

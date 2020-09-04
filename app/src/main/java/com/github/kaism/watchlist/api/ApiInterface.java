@@ -9,6 +9,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
-	@GET("batch?types=quote&token=" + BuildConfig.QUOTEAPI_KEY)
+	@GET("batch?types=quote&filter=latestPrice&token=" + BuildConfig.QUOTEAPI_KEY)
 	Call<Map<String, Quote>> getQuotes(@Query("symbols") String symbolsCsv);
 }

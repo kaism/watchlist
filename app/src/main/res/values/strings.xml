@@ -9,4 +9,5 @@
 	<string name="dialog_button_cancel">Cancel</string>
 	<string name="dialog_button_delete">Delete</string>
 	<string name="dialog_question_confirm_delete_stock">Delete this stock?</string>
+	<string name="error_no_quotes">No quotes</string>
 </resources>
