@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 	private StockViewModel stockViewModel;
 	SwipeRefreshLayout mSwipeRefreshLayout;
 	private ApiInterface apiInterface;
+	private String symbolsCsv = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +56,11 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onChanged(List<Stock> stocks) {
 				adapter.setStocks(stocks);
-
 				if (adapter.getItemCount() > 0) {
 					findViewById(R.id.empty_text).setVisibility(View.GONE);
+					symbolsCsv = getStocksCsv(stocks);
 				}
+				Toast.makeText(MainActivity.this, symbolsCsv, Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
 		// set up swipe to refresh
 		final MainActivity activity = this;
-		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
+		mSwipeRefreshLayout = findViewById(R.id.swipeToRefresh);
 		mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -94,6 +96,15 @@ public class MainActivity extends AppCompatActivity {
 		// configure api
 		apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
+	}
+
+	private String getStocksCsv(List<Stock> stocks) {
+		StringBuilder str = new StringBuilder();
+		for (Stock stock : stocks) {
+			str.append(stock.getSymbol().toLowerCase()).append(",");
+		}
+		str.deleteCharAt(str.length()-1);
+		return str.toString();
 	}
 
 	private void setOnClickListeners() {
@@ -110,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void getQuotes() {
-		Call<Map<String, Quote>> call = apiInterface.getQuotes(getSymbols());
+		Call<Map<String, Quote>> call = apiInterface.getQuotes(symbolsCsv);
 		call.enqueue(new Callback<Map<String, Quote>>() {
 			@Override
 			public void onResponse(@NonNull Call<Map<String, Quote>> call, @NonNull Response<Map<String, Quote>> response) {
@@ -129,10 +140,6 @@ public class MainActivity extends AppCompatActivity {
 				Log.d("KDBUG", "onFailure: " + t.getMessage());
 			}
 		});
-	}
-
-	private String getSymbols() {
-		return "amd,msft";
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

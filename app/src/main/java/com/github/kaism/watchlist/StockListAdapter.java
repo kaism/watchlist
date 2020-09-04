@@ -33,13 +33,18 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 	@Override
 	public void onBindViewHolder(@NonNull StockViewHolder holder, int position) {
 		if (stocks != null) {
-			// set symbol view
 			Stock current = stocks.get(position);
-			holder.symbolView.setText(current.getSymbol());
-
-			// calculate price views
 			int lowPrice = current.getLowPrice();
+			int currentPrice = current.getCurrentPrice();
 			int highPrice = current.getHighPrice();
+
+			// set text views
+			holder.symbolView.setText(current.getSymbol());
+			holder.lowPriceTextView.setText(priceToString(lowPrice));
+			holder.currentPriceTextView.setText(priceToString(currentPrice));
+			holder.highPriceTextView.setText(priceToString(highPrice));
+
+			// calculate background views
 			int midPrice = getAverage(lowPrice, highPrice);
 			int price2 = getAverage(lowPrice, midPrice);
 			int price6 = getAverage(midPrice, highPrice);
@@ -48,12 +53,7 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 			int price5 = getAverage(midPrice, price6);
 			int price7 = getAverage(price5, highPrice);
 
-			// set price views
-			holder.lowPriceTextView.setText(priceToString(lowPrice));
-			holder.highPriceTextView.setText(priceToString(highPrice));
-
 			// set background colors based on price
-			int currentPrice = 7649;
 			holder.lowPriceView.setBackgroundColor(getColor(currentPrice, lowPrice));
 			holder.price1View.setBackgroundColor(getColor(currentPrice, price1));
 			holder.price2View.setBackgroundColor(getColor(currentPrice, price2));
@@ -84,6 +84,12 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 	}
 
 	static class StockViewHolder extends RecyclerView.ViewHolder {
+		// text views
+		private final TextView lowPriceTextView;
+		private final TextView currentPriceTextView;
+		private final TextView highPriceTextView;
+
+		// background views
 		private final TextView symbolView;
 		private final TextView lowPriceView;
 		private final TextView price1View;
@@ -95,12 +101,16 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 		private final TextView price7View;
 		private final TextView highPriceView;
 
-		private final TextView lowPriceTextView;
-		private final TextView highPriceTextView;
-
 		private StockViewHolder(@NonNull View itemView) {
 			super(itemView);
+
+			// text views
 			symbolView = itemView.findViewById(R.id.symbol);
+			lowPriceTextView = itemView.findViewById(R.id.lowPriceText);
+			currentPriceTextView = itemView.findViewById(R.id.currentPriceText);
+			highPriceTextView = itemView.findViewById(R.id.highPriceText);
+
+			// background views
 			lowPriceView = itemView.findViewById(R.id.lowPrice);
 			price1View = itemView.findViewById(R.id.price1);
 			price2View = itemView.findViewById(R.id.price2);
@@ -110,9 +120,6 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 			price6View = itemView.findViewById(R.id.price6);
 			price7View = itemView.findViewById(R.id.price7);
 			highPriceView = itemView.findViewById(R.id.highPrice);
-
-			lowPriceTextView = itemView.findViewById(R.id.lowPriceText);
-			highPriceTextView = itemView.findViewById(R.id.highPriceText);
 		}
 	}
 
