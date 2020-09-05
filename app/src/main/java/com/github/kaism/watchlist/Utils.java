@@ -1,17 +1,23 @@
 package com.github.kaism.watchlist;
 
+import android.annotation.SuppressLint;
+
 public class Utils {
 
 	public static int stringToPrice(String string) {
-		if (string != null){
-			String[] arr = string.split("\\.");
-			if (arr.length == 1) {
-				return Integer.parseInt(arr[0].concat("00"));
-			} else if (arr.length == 2) {
-				return Integer.parseInt(arr[0].concat(arr[1]));
+		if (string != null && !string.equals("")){
+			try {
+				return (int) Math.round((Float.parseFloat(string) * 100));
+			} catch (NumberFormatException e) {
+				return 0;
 			}
 		}
 		return 0;
+	}
+
+	@SuppressLint("DefaultLocale")
+	public static String priceToString(int price) {
+		return String.format("%.2f", (float) price/100);
 	}
 
 }
