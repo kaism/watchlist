@@ -17,27 +17,23 @@ android {
 		versionName '1.0'
 
 		testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+		testInstrumentationRunnerArguments clearPackageData: 'true'		// clear data after each test
 
-		// The following argument makes the Android Test Orchestrator run its
-		// "pm clear" command after each test invocation. This command ensures
-		// that the app's state is completely cleared between tests.
-		testInstrumentationRunnerArguments clearPackageData: 'true'
-
-		// get api urls and keys from local config file
+		// get api url and key from local config file
 		buildConfigField('String', 'QUOTEAPI_URL', configProperties['QUOTEAPI_URL'])
 		buildConfigField('String', 'QUOTEAPI_KEY', configProperties['QUOTEAPI_KEY'])
 	}
-
-	testOptions {
-		execution 'ANDROIDX_TEST_ORCHESTRATOR'
-	}
-
 	buildTypes {
 		release {
 			minifyEnabled false
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 		}
 	}
+
+	testOptions {
+		execution 'ANDROIDX_TEST_ORCHESTRATOR'
+	}
+
 }
 
 dependencies {
