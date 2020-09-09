@@ -1,6 +1,6 @@
 package com.github.kaism.watchlist;
 
-import android.annotation.SuppressLint;
+import java.util.Locale;
 
 public class Utils {
 
@@ -15,9 +15,8 @@ public class Utils {
 		return 0;
 	}
 
-	@SuppressLint("DefaultLocale")
 	public static String priceToString(int price) {
-		return String.format("%.2f", (float) price/100);
+		return String.format(Locale.US, "%.2f", (float) price/100);
 	}
 
 }

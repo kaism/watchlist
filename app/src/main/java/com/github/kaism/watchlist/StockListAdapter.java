@@ -1,7 +1,7 @@
 package com.github.kaism.watchlist;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +47,9 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 			holder.currentPriceTextView.setText(priceToString(currentPrice));
 			holder.highPriceTextView.setText(priceToString(highPrice));
 
-			holder.progressBar.setMin(0);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+				holder.progressBar.setMin(0);
+			}
 			holder.progressBar.setMax(highPrice - lowPrice);
 			holder.progressBar.setProgress(currentPrice - lowPrice);
 
