@@ -64,7 +64,16 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-		setOnClickListeners();
+		// handle add stock button
+		findViewById(R.id.button_add_stock).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				startActivityForResult(
+						new Intent(MainActivity.this, AddStockActivity.class),
+						NEW_STOCK_ACTIVITY_REQUEST_CODE
+				);
+			}
+		});
 
 		// set delete item action with swipe
 		ItemTouchHelper helper = new ItemTouchHelper(
@@ -105,19 +114,6 @@ public class MainActivity extends AppCompatActivity {
 		}
 		str.deleteCharAt(str.length()-1);
 		return str.toString();
-	}
-
-	private void setOnClickListeners() {
-		// handle add stock button
-		findViewById(R.id.button_add_stock).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				startActivityForResult(
-						new Intent(MainActivity.this, AddStockActivity.class),
-						NEW_STOCK_ACTIVITY_REQUEST_CODE
-				);
-			}
-		});
 	}
 
 	private void getQuotes() {
