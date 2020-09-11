@@ -3,33 +3,79 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:layout_margin="8dp"
+	android:orientation="vertical"
 	tools:context=".AddStockActivity">
 
-	<EditText
-		android:id="@+id/symbol"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:hint="@string/ticker_hint"
-		android:importantForAutofill="no" />
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		tools:ignore="UselessLeaf" />
 
-	<EditText
-		android:id="@+id/lowPrice"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:hint="@string/low_price_hint"
-		android:importantForAutofill="no" />
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="2"
+		android:orientation="vertical">
 
-	<EditText
-		android:id="@+id/highPrice"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:hint="@string/high_price_hint"
-		android:importantForAutofill="no" />
+		<EditText
+			android:id="@+id/symbol"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_margin="8dp"
+			android:ems="4"
+			android:hint="@string/symbolHint"
+			android:importantForAutofill="no"
+			android:inputType="textCapCharacters"
+			android:textAlignment="center" />
 
-	<Button
-		android:id="@+id/save_stock"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/save" />
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:orientation="horizontal">
+
+			<EditText
+				android:id="@+id/lowPrice"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:layout_margin="8dp"
+				android:ems="4"
+				android:hint="@string/low_price_hint"
+				android:importantForAutofill="no"
+				android:inputType="numberDecimal"
+				android:textAlignment="center" />
+
+			<EditText
+				android:id="@+id/highPrice"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:layout_margin="8dp"
+				android:ems="4"
+				android:hint="@string/high_price_hint"
+				android:importantForAutofill="no"
+				android:inputType="numberDecimal"
+				android:textAlignment="center" />
+		</LinearLayout>
+
+		<Button
+			android:id="@+id/save_stock"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_margin="8dp"
+			android:text="@string/save" />
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		tools:ignore="UselessLeaf" />
 
 </LinearLayout>

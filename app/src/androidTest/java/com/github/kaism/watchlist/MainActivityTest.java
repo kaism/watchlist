@@ -1,17 +1,17 @@
 package com.github.kaism.watchlist;
 
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
 import org.junit.Rule;
 import org.junit.Test;
-
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static androidx.test.espresso.matcher.ViewMatchers.hasSibling;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withChild;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
@@ -51,8 +51,8 @@ public class MainActivityTest {
 	public void listItem() {
 		addStock();
 		onView(withId(R.id.recycler_view)).check(matches(hasDescendant(withText(symbol))));
-		onView(withText(symbol)).check(matches(hasSibling(withText(low_price))));
-		onView(withText(symbol)).check(matches(hasSibling(withText(high_price))));
+		onView(withChild(withText(symbol))).check(matches(hasDescendant(withText(low_price))));
+		onView(withChild(withText(symbol))).check(matches(hasDescendant(withText(high_price))));
 	}
 
 	private void addStock() {
