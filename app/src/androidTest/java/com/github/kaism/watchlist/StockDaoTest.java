@@ -43,7 +43,7 @@ public class StockDaoTest {
 		stockDao.insert(stock);
 
 		// verify in db
-		stock = stockDao.selectOne().get(0);
+		stock = stockDao.getStockBySymbol(symbol);
 		assertThat(stock.getSymbol(), equalTo(symbol));
 	}
 
@@ -54,12 +54,12 @@ public class StockDaoTest {
 		stockDao.insert(stock);
 
 		// delete
-		stock = stockDao.selectOne().get(0);
+		stock = stockDao.getStockBySymbol(symbol);
 		stockDao.delete(stock);
 
 		// verify not in db
-		List<Stock> empty = stockDao.selectOne();
-		assertThat(empty.size(), equalTo(0));
+		Stock empty = stockDao.getStockBySymbol(symbol);
+		assertThat(empty, equalTo(null));
 	}
 
 	@Test

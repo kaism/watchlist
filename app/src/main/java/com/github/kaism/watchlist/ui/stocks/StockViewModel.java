@@ -17,7 +17,7 @@ public class StockViewModel extends AndroidViewModel {
 	public StockViewModel(Application application) {
 		super(application);
 		stockRepository = new StockRepository(application);
-		stocks = stockRepository.getAllStocks();
+		stocks = stockRepository.getStocksLiveData();
 	}
 
 	public LiveData<List<Stock>> getStocks() {

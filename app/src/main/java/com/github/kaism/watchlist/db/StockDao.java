@@ -11,16 +11,20 @@ import java.util.List;
 
 @Dao
 public interface StockDao {
-	@Query("SELECT * from stocks ORDER BY symbol ASC")
-	LiveData<List<Stock>> getAllStocks();
 
-	@Query("SELECT * from stocks limit 1")
-	List<Stock> selectOne();
+	@Query("SELECT * FROM stocks ORDER BY symbol ASC")
+	LiveData<List<Stock>> getStocksLiveData();
 
-	@Query("SELECT * from stocks where symbol=:symbol")
-	List<Stock> selectBySymbol(String symbol);
+	@Query("SELECT * FROM stocks where symbol=:symbol")
+	LiveData<Stock> getStockBySymbolLiveData(String symbol);
 
-	@Insert(onConflict = OnConflictStrategy.IGNORE)
+	@Query("SELECT * FROM stocks ORDER BY symbol ASC")
+	List<Stock> getStocks();
+
+	@Query("SELECT * FROM stocks where symbol=:symbol")
+	Stock getStockBySymbol(String symbol);
+
+	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	void insert(Stock stock);
 
 	@Query("UPDATE stocks SET currentPrice = :price WHERE symbol = :symbol")
@@ -28,4 +32,10 @@ public interface StockDao {
 
 	@Delete
 	void delete(Stock stock);
+
+
+	// for testing
+	@Query("SELECT * FROM stocks where symbol=:symbol")
+	List<Stock> selectBySymbol(String symbol);
+
 }
