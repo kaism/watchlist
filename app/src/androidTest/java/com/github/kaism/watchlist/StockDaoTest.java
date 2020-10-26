@@ -63,7 +63,7 @@ public class StockDaoTest {
 	}
 
 	@Test
-	public void updateOnDuplicate() {
+	public void insertNoDuplicates() {
 		// insert stock
 		Stock stock = new Stock(symbol);
 		stockDao.insert(stock);

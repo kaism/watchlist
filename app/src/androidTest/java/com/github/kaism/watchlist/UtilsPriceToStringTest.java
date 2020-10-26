@@ -1,6 +1,5 @@
 package com.github.kaism.watchlist;
 
-
 import androidx.test.filters.SmallTest;
 
 import org.junit.Test;

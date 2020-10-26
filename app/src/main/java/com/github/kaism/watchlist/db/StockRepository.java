@@ -34,8 +34,8 @@ public class StockRepository {
 		}
 
 		@Override
-		protected Void doInBackground(final Stock... params) {
-			asyncTaskDao.insert(params[0]);
+		protected Void doInBackground(final Stock... stocks) {
+			asyncTaskDao.insert(stocks[0]);
 			return null;
 		}
 	}
@@ -76,8 +76,8 @@ public class StockRepository {
 		}
 
 		@Override
-		protected Void doInBackground(final Stock... params) {
-			asyncTaskDao.delete(params[0]);
+		protected Void doInBackground(final Stock... stocks) {
+			asyncTaskDao.delete(stocks[0]);
 			return null;
 		}
 	}

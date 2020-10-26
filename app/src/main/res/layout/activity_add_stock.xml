@@ -5,7 +5,7 @@
 	android:layout_height="match_parent"
 	android:layout_margin="8dp"
 	android:orientation="vertical"
-	tools:context=".AddStockActivity">
+	tools:context=".ui.stocks.AddStockActivity">
 
 	<LinearLayout
 		android:layout_width="match_parent"

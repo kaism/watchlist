@@ -1,4 +1,4 @@
-package com.github.kaism.watchlist;
+package com.github.kaism.watchlist.ui.stocks;
 
 import android.content.Context;
 import android.os.Build;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.kaism.watchlist.R;
 import com.github.kaism.watchlist.db.Stock;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 	private List<Stock> stocks;
 	private Context context;
 
-	StockListAdapter(Context context) {
+	public StockListAdapter(Context context) {
 		layoutInflater = LayoutInflater.from(context);
 		this.context = context;
 	}
@@ -63,7 +64,7 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 		}
 	}
 
-	void setStocks(List<Stock> stocks) {
+	public void setStocks(List<Stock> stocks) {
 		this.stocks = stocks;
 		notifyDataSetChanged();
 	}

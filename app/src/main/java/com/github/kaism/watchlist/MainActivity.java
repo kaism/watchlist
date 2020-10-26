@@ -22,6 +22,9 @@ import com.github.kaism.watchlist.api.ApiClient;
 import com.github.kaism.watchlist.api.ApiInterface;
 import com.github.kaism.watchlist.api.Quote;
 import com.github.kaism.watchlist.db.Stock;
+import com.github.kaism.watchlist.ui.stocks.AddStockActivity;
+import com.github.kaism.watchlist.ui.stocks.StockListAdapter;
+import com.github.kaism.watchlist.ui.stocks.StockViewModel;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -60,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 					findViewById(R.id.empty_text).setVisibility(View.GONE);
 					symbolsCsv = getStocksCsv(stocks);
 				}
-				Toast.makeText(MainActivity.this, symbolsCsv, Toast.LENGTH_SHORT).show();
 			}
 		});
 

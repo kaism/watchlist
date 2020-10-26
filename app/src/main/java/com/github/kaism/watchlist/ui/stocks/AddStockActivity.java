@@ -1,4 +1,4 @@
-package com.github.kaism.watchlist;
+package com.github.kaism.watchlist.ui.stocks;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.github.kaism.watchlist.R;
+import com.github.kaism.watchlist.Utils;
 
 public class AddStockActivity extends AppCompatActivity {
 	// bundle key constants

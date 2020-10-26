@@ -39,4 +39,5 @@ public class Stock {
 	public void setCurrentPrice(int price) {
 		this.currentPrice = price;
 	}
+
 }

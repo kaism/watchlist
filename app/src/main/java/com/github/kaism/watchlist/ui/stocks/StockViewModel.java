@@ -1,4 +1,4 @@
-package com.github.kaism.watchlist;
+package com.github.kaism.watchlist.ui.stocks;
 
 import android.app.Application;
 
