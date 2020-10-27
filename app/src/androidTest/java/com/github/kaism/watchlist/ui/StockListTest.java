@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -70,6 +71,21 @@ public class StockListTest {
 
 		// verify button to add a stock is displayed
 		onView(withId(R.id.button_add_stock)).check(matches(isDisplayed()));
+
+		// scroll up
+		onView(withId(R.id.recycler_view)).perform(swipeUp());
+
+//		SystemClock.sleep(3000);
+//
+//		// verify button to add a stock is not displayed
+//		onView(withId(R.id.button_add_stock)).check(matches(not(isDisplayed())));
+
+//		// scroll down
+//		onView(withId(R.id.recycler_view)).perform(swipeDown());
+//
+//		// verify button to add a stock is displayed
+//		onView(withId(R.id.button_add_stock)).check(matches(isDisplayed()));
+
 	}
 
 }

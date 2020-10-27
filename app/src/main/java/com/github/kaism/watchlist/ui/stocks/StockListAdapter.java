@@ -59,7 +59,7 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 			} else if (currentPrice >= highPrice) {
 				holder.symbolTextView.setBackgroundColor(context.getResources().getColor(R.color.green));
 			} else {
-				holder.symbolTextView.setBackgroundColor(0x00000000);
+				holder.symbolTextView.setBackgroundColor(context.getResources().getColor(R.color.transparent));
 			}
 		}
 	}
