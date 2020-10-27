@@ -1,8 +1,8 @@
 package com.github.kaism.watchlist.suite;
 
-import com.github.kaism.watchlist.AddStockActivityTest;
-import com.github.kaism.watchlist.MainActivityTest;
-import com.github.kaism.watchlist.StockDaoTest;
+import com.github.kaism.watchlist.ui.AddStockActivityTest;
+import com.github.kaism.watchlist.ui.MainActivityTest;
+import com.github.kaism.watchlist.db.StockDaoTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

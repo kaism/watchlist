@@ -1,7 +1,10 @@
-package com.github.kaism.watchlist;
+package com.github.kaism.watchlist.ui;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
+import com.github.kaism.watchlist.MainActivity;
+import com.github.kaism.watchlist.R;
 
 import org.junit.Before;
 import org.junit.Rule;

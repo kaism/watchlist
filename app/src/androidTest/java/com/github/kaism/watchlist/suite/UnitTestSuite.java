@@ -1,7 +1,7 @@
 package com.github.kaism.watchlist.suite;
 
-import com.github.kaism.watchlist.UtilsPriceToStringTest;
-import com.github.kaism.watchlist.UtilsStringToPriceTest;
+import com.github.kaism.watchlist.utils.UtilsPriceToStringTest;
+import com.github.kaism.watchlist.utils.UtilsStringToPriceTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
