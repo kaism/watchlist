@@ -33,7 +33,7 @@ public class TestHelper {
 	public static void addStocks(StockRepository stockRepository, List<Stock> stocks) {
 		if (stocks.size() > 0) {
 			for (Stock stock : stocks) {
-				stockRepository.insert(stock);
+				stockRepository.save(stock);
 			}
 		}
 

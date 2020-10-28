@@ -2,8 +2,6 @@ package com.github.kaism.watchlist.utils;
 
 import androidx.test.filters.SmallTest;
 
-import com.github.kaism.watchlist.Utils;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

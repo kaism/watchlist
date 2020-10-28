@@ -8,7 +8,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.kaism.watchlist.R;
-import com.github.kaism.watchlist.Utils;
+import com.github.kaism.watchlist.utils.Utils;
 
 public class AddStockActivity extends AppCompatActivity {
 	// bundle key constants

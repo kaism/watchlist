@@ -1,4 +1,4 @@
-package com.github.kaism.watchlist;
+package com.github.kaism.watchlist.utils;
 
 import java.util.Locale;
 
@@ -7,7 +7,7 @@ public class Utils {
 	public static int stringToPrice(String string) {
 		if (string != null && !string.equals("")){
 			try {
-				return (int) Math.round((Float.parseFloat(string) * 100));
+				return Math.round((Float.parseFloat(string) * 100));
 			} catch (NumberFormatException e) {
 				return 0;
 			}

@@ -12,20 +12,18 @@ import java.util.List;
 
 public class StockViewModel extends AndroidViewModel {
 	private StockRepository stockRepository;
-	private LiveData<List<Stock>> stocks;
 
 	public StockViewModel(Application application) {
 		super(application);
 		stockRepository = new StockRepository(application);
-		stocks = stockRepository.getStocksLiveData();
 	}
 
-	public LiveData<List<Stock>> getStocks() {
-		return stocks;
+	public LiveData<List<Stock>> getAllStocksLiveData() {
+		return stockRepository.getStocksLiveData();
 	}
 
-	public void insert(Stock stock) {
-		stockRepository.insert(stock);
+	public void save(Stock stock) {
+		stockRepository.save(stock);
 	}
 
 	public void updatePrice(String symbol, int price) {

@@ -6,13 +6,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,8 +24,10 @@ import com.github.kaism.watchlist.api.ApiInterface;
 import com.github.kaism.watchlist.api.Quote;
 import com.github.kaism.watchlist.db.Stock;
 import com.github.kaism.watchlist.ui.stocks.AddStockActivity;
+import com.github.kaism.watchlist.utils.OnVerticalScrollListener;
 import com.github.kaism.watchlist.ui.stocks.StockListAdapter;
 import com.github.kaism.watchlist.ui.stocks.StockViewModel;
+import com.github.kaism.watchlist.utils.Utils;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -36,9 +39,10 @@ import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
-	private static final int NEW_STOCK_ACTIVITY_REQUEST_CODE = 1;
+	private static final int REQUEST_CODE_NEW_STOCK = 100;
 	private StockViewModel stockViewModel;
-	SwipeRefreshLayout mSwipeRefreshLayout;
+
+	private SwipeRefreshLayout swipeRefreshLayout;
 	private ApiInterface apiInterface;
 	private String symbolsCsv = "";
 
@@ -47,21 +51,30 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// set up recycler view
-		final StockListAdapter adapter = new StockListAdapter(this);
+		final TextView emptyTextView = findViewById(R.id.empty_text);
+
+		// set up recycler view and adapter
 		RecyclerView recyclerView = findViewById(R.id.recycler_view);
-		recyclerView.setAdapter(adapter);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
+		final StockListAdapter adapter = new StockListAdapter(this);
+		recyclerView.setAdapter(adapter);
 
 		// set up view model and observer
-		stockViewModel = ViewModelProviders.of(this).get(StockViewModel.class);
-		stockViewModel.getStocks().observe(this, new Observer<List<Stock>>() {
+		stockViewModel = new ViewModelProvider(this).get(StockViewModel.class);
+		stockViewModel.getAllStocksLiveData().observe(this, new Observer<List<Stock>>() {
 			@Override
 			public void onChanged(List<Stock> stocks) {
+				// update adapter
 				adapter.setStocks(stocks);
-				if (adapter.getItemCount() > 0) {
-					findViewById(R.id.empty_text).setVisibility(View.GONE);
-					symbolsCsv = getStocksCsv(stocks);
+
+				// refresh symbol list cache
+				symbolsCsv = getSymbolsCsv(stocks);
+
+				// toggle empty text
+				if (stocks.size() > 0) {
+					emptyTextView.setVisibility(View.GONE);
+				} else {
+					emptyTextView.setVisibility(View.VISIBLE);
 				}
 			}
 		});
@@ -72,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 			public void onClick(View view) {
 				startActivityForResult(
 						new Intent(MainActivity.this, AddStockActivity.class),
-						NEW_STOCK_ACTIVITY_REQUEST_CODE
+						REQUEST_CODE_NEW_STOCK
 				);
 			}
 		});
@@ -96,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
 		// set up swipe to refresh
 		final MainActivity activity = this;
-		mSwipeRefreshLayout = findViewById(R.id.swipeToRefresh);
-		mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+		swipeRefreshLayout = findViewById(R.id.swipeToRefresh);
+		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
 				new Refresh(activity).execute();
@@ -109,14 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
 	}
 
-	private String getStocksCsv(List<Stock> stocks) {
-		StringBuilder str = new StringBuilder();
-		for (Stock stock : stocks) {
-			str.append(stock.getSymbol().toLowerCase()).append(",");
-		}
-		str.deleteCharAt(str.length()-1);
-		return str.toString();
-	}
+
 
 	private void getQuotes() {
 		Call<Map<String, Quote>> call = apiInterface.getQuotes(symbolsCsv);
@@ -144,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		// handle add new stock
-		if (requestCode == NEW_STOCK_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+		if (requestCode == REQUEST_CODE_NEW_STOCK && resultCode == RESULT_OK) {
 			String symbol = data.getStringExtra(AddStockActivity.SYMBOL);
 			int lowPrice = data.getIntExtra(AddStockActivity.LOW_PRICE, 0);
 			int highPrice = data.getIntExtra(AddStockActivity.HIGH_PRICE, 0);
@@ -152,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 				Stock stock = new Stock(symbol);
 				stock.setLowPrice(lowPrice);
 				stock.setHighPrice(highPrice);
-				stockViewModel.insert(stock);
+				stockViewModel.save(stock);
 				Toast.makeText(getApplicationContext(), symbol + " added", Toast.LENGTH_LONG).show();
 			} else {
 				Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
@@ -198,13 +204,26 @@ public class MainActivity extends AppCompatActivity {
 			if (activity == null || activity.isFinishing()) return;
 
 			// modify the activity's UI
-			activity.mSwipeRefreshLayout.setRefreshing(false);
+			activity.swipeRefreshLayout.setRefreshing(false);
 			if (success) {
 				Toast.makeText(activity, "Success!", Toast.LENGTH_SHORT).show();
 			} else {
 				Toast.makeText(activity, "Failed", Toast.LENGTH_SHORT).show();
 			}
 		}
+	}
+
+
+
+
+	private String getSymbolsCsv(List<Stock> stocks) {
+		if (stocks.size() == 0) return "";
+		StringBuilder stringBuilder = new StringBuilder();
+		for (Stock stock : stocks) {
+			stringBuilder.append(stock.getSymbol().toLowerCase()).append(",");
+		}
+		stringBuilder.deleteCharAt(stringBuilder.length()-1);
+		return stringBuilder.toString();
 	}
 
 }

@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.github.kaism.watchlist.Utils;
+import com.github.kaism.watchlist.utils.Utils;
 
 @Entity(tableName = "stocks")
 public class Stock {

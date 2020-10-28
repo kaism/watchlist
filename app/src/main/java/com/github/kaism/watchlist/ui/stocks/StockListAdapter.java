@@ -16,7 +16,7 @@ import com.github.kaism.watchlist.db.Stock;
 
 import java.util.List;
 
-import static com.github.kaism.watchlist.Utils.priceToString;
+import static com.github.kaism.watchlist.utils.Utils.priceToString;
 
 
 public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.StockViewHolder> {

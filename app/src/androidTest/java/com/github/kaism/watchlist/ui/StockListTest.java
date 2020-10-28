@@ -46,7 +46,7 @@ public class StockListTest {
 	@Test
 	public void verifyOneStockDisplay() {
 		// add stock
-		stockRepository.insert(new Stock("AMD"));
+		stockRepository.save(new Stock("AMD"));
 
 		// verify empty text not displayed
 		onView(withId(R.id.empty_text)).check(matches(not(isDisplayed())));
@@ -63,7 +63,7 @@ public class StockListTest {
 				"NVDA", "PYPL", "TIVO", "TSLA", "TTD", "YELP", "ZG"
 		};
 		for (String symbol : symbols) {
-			stockRepository.insert(new Stock(symbol));
+			stockRepository.save(new Stock(symbol));
 		}
 
 		// verify empty text not displayed

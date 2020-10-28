@@ -1,7 +1,7 @@
 package com.github.kaism.watchlist.ui;
 
 import com.github.kaism.watchlist.R;
-import com.github.kaism.watchlist.Utils;
+import com.github.kaism.watchlist.utils.Utils;
 import com.github.kaism.watchlist.db.Stock;
 import com.github.kaism.watchlist.db.StockRepository;
 
@@ -46,7 +46,7 @@ public class StockListItemTest {
 	@Test
 	public void itemUnknownPrice() {
 		// insert stock
-		stockRepository.insert(stock);
+		stockRepository.save(stock);
 
 		// verify symbol
 		onView(withId(R.id.symbol)).check(matches(isDisplayed())).check(matches(withText(symbol))).check(matches(withBackgroundColor(R.color.transparent)));
@@ -63,7 +63,7 @@ public class StockListItemTest {
 	@Test
 	public void itemPriceInRange() {
 		// insert stock
-		stockRepository.insert(stock);
+		stockRepository.save(stock);
 
 		// set current price to halfway
 		int currentPriceInt = (lowPriceInt + highPriceInt) / 2;
@@ -84,7 +84,7 @@ public class StockListItemTest {
 
 	@Test
 	public void itemPriceBelowRange() {
-		stockRepository.insert(stock);
+		stockRepository.save(stock);
 
 		int currentPriceInt = lowPriceInt - 1;
 		String currentPriceString = Utils.priceToString(currentPriceInt);
@@ -104,7 +104,7 @@ public class StockListItemTest {
 
 	@Test
 	public void itemPriceAboveRange() {
-		stockRepository.insert(stock);
+		stockRepository.save(stock);
 
 		int currentPriceInt = highPriceInt + 1;
 		String currentPriceString = Utils.priceToString(currentPriceInt);

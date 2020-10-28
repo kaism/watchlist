@@ -35,7 +35,7 @@ public class StockRepositoryTest {
 		String symbol = stock.getSymbol();
 
 		// insert
-		stockRepository.insert(stock);
+		stockRepository.save(stock);
 		SystemClock.sleep(500); // give it time to do the async task
 
 		// verify in database
@@ -49,7 +49,7 @@ public class StockRepositoryTest {
 		String symbol = stock.getSymbol();
 
 		// insert
-		stockRepository.insert(stock);
+		stockRepository.save(stock);
 		SystemClock.sleep(500); // give it time to do the async task
 
 		// verify in database

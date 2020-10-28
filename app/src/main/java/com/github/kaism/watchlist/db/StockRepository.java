@@ -24,7 +24,7 @@ public class StockRepository {
 	public Stock getStockBySymbol(String symbol) { return stockDao.getStockBySymbol(symbol); }
 
 	// save
-	public void insert(Stock stock) {
+	public void save(Stock stock) {
 		new insertAsyncTask(stockDao).execute(stock);
 	}
 	private static class insertAsyncTask extends AsyncTask<Stock, Void, Void> {
