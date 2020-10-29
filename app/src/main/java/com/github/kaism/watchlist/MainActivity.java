@@ -104,6 +104,15 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
+		// long click add button for quick seed
+		addStockButton.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				stockViewModel.seed();
+				return true;
+			}
+		});
+
 		// set delete item action with swipe
 		ItemTouchHelper helper = new ItemTouchHelper(
 				new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {

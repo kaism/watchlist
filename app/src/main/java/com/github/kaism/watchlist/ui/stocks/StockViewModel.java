@@ -34,4 +34,14 @@ public class StockViewModel extends AndroidViewModel {
 		stockRepository.delete(stock);
 	}
 
+	public void seed() {
+		String[] symbols = {
+				"AAPL", "AMD", "AMXN", "ATVI", "BABA", "CRM", "EA", "FB", "GOOG", "INTC", "MSFT", "MTCH",
+				"NVDA", "PYPL", "TIVO", "TSLA", "TTD", "YELP", "ZG"
+		};
+		for (String symbol : symbols) {
+			stockRepository.save(new Stock(symbol));
+		}
+	}
+
 }
