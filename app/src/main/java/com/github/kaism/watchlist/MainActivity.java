@@ -24,10 +24,11 @@ import com.github.kaism.watchlist.api.ApiInterface;
 import com.github.kaism.watchlist.api.Quote;
 import com.github.kaism.watchlist.db.Stock;
 import com.github.kaism.watchlist.ui.stocks.AddStockActivity;
-import com.github.kaism.watchlist.utils.OnVerticalScrollListener;
 import com.github.kaism.watchlist.ui.stocks.StockListAdapter;
 import com.github.kaism.watchlist.ui.stocks.StockViewModel;
 import com.github.kaism.watchlist.utils.Utils;
+import com.github.kaism.watchlist.utils.ScrollListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -52,11 +53,24 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 
 		final TextView emptyTextView = findViewById(R.id.empty_text);
+		final FloatingActionButton addStockButton = findViewById(R.id.button_add_stock);
 
-		// set up recycler view and adapter
+		// set up recycler view and scroll action
 		RecyclerView recyclerView = findViewById(R.id.recycler_view);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
-		final StockListAdapter adapter = new StockListAdapter(this);
+		recyclerView.addOnScrollListener(new ScrollListener() {
+			@Override
+			public void onScrollUp() {
+				addStockButton.setVisibility(View.GONE);
+			}
+			@Override
+			public void onScrollDown() {
+				addStockButton.setVisibility(View.VISIBLE);
+			}
+		});
+
+
+		// attach adapter to recycler view
 		recyclerView.setAdapter(adapter);
 
 		// set up view model and observer
@@ -80,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 		});
 
 		// handle add stock button
-		findViewById(R.id.button_add_stock).setOnClickListener(new View.OnClickListener() {
+		addStockButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				startActivityForResult(
