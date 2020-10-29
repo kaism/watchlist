@@ -2,6 +2,7 @@ package com.github.kaism.watchlist.ui.stocks;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,14 @@ import static com.github.kaism.watchlist.utils.Utils.priceToString;
 
 public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.StockViewHolder> {
 	private final LayoutInflater layoutInflater;
+	private String TAG = "KDBUG";
 	private List<Stock> stocks;
 	private Context context;
+
+	/**
+	 * Callback method to be invoked when RecyclerView item is clicked.
+	 */
+	public void onItemClicked(Stock stock) {}
 
 	public StockListAdapter(Context context) {
 		layoutInflater = LayoutInflater.from(context);
@@ -36,7 +43,7 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull StockViewHolder holder, int position) {
+	public void onBindViewHolder(@NonNull StockViewHolder holder, final int position) {
 		if (stocks != null) {
 			Stock current = stocks.get(position);
 			holder.symbolTextView.setText(current.getSymbol());
@@ -61,6 +68,15 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 			} else {
 				holder.symbolTextView.setBackgroundColor(context.getResources().getColor(R.color.transparent));
 			}
+
+			// set click handler to the item
+			holder.itemView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Log.d(TAG, "onClick: position "+position);
+					onItemClicked(getStockAtPosition(position));
+				}
+			});
 		}
 	}
 

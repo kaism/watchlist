@@ -69,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
+		// set up adapter and item click action
+		final StockListAdapter adapter = new StockListAdapter(this) {
+			@Override
+			public void onItemClicked(Stock stock) {
+				Toast.makeText(MainActivity.this, stock.getSymbol()+" clicked!", Toast.LENGTH_SHORT).show();
+			}
+		};
 
 		// attach adapter to recycler view
 		recyclerView.setAdapter(adapter);
