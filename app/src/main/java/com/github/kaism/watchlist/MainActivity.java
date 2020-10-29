@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
 					public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 						int position = viewHolder.getAdapterPosition();
 						confirmDelete(adapter.getStockAtPosition(position));
+						adapter.notifyItemChanged(position);
 					}
 				});
 		helper.attachToRecyclerView(recyclerView);
@@ -197,20 +198,14 @@ public class MainActivity extends AppCompatActivity {
 
 	private void confirmDelete(final Stock stock) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this)
-				.setMessage(getString(R.string.dialog_question_confirm_delete_stock))
-				.setPositiveButton(R.string.dialog_button_delete, new DialogInterface.OnClickListener() {
+				.setMessage(getString(R.string.delete)+" "+stock.getSymbol()+"?")
+				.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						Toast.makeText(MainActivity.this, "Deleting " + stock.getSymbol(), Toast.LENGTH_LONG).show();
 						stockViewModel.delete(stock);
 					}
 				})
-				.setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						Toast.makeText(MainActivity.this, "Canceled", Toast.LENGTH_LONG).show();
-					}
-				});
+				.setNegativeButton(R.string.cancel, null);
 		builder.show();
 	}
 

@@ -6,8 +6,7 @@
 	<string name="low_price_hint">20.28</string>
 	<string name="high_price_hint">27.85</string>
 	<string name="save">Save</string>
-	<string name="dialog_button_cancel">Cancel</string>
-	<string name="dialog_button_delete">Delete</string>
-	<string name="dialog_question_confirm_delete_stock">Delete this stock?</string>
+	<string name="cancel">Cancel</string>
+	<string name="delete">Delete</string>
 	<string name="error_no_quotes">No quotes</string>
 </resources>
