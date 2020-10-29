@@ -24,7 +24,11 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 	private final LayoutInflater layoutInflater;
 	private String TAG = "KDBUG";
 	private List<Stock> stocks;
-	private Context context;
+
+	// color resources
+	private int bgColorGreen;
+	private int bgColorRed;
+	private int bgColorTransparent;
 
 	/**
 	 * Callback method to be invoked when RecyclerView item is clicked.
@@ -33,7 +37,11 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 
 	public StockListAdapter(Context context) {
 		layoutInflater = LayoutInflater.from(context);
-		this.context = context;
+
+		// get color resources
+		this.bgColorGreen = context.getResources().getColor(R.color.green);
+		this.bgColorRed = context.getResources().getColor(R.color.red);
+		this.bgColorTransparent = context.getResources().getColor(R.color.transparent);
 	}
 
 	@NonNull
@@ -46,27 +54,28 @@ public class StockListAdapter extends RecyclerView.Adapter<StockListAdapter.Stoc
 	public void onBindViewHolder(@NonNull StockViewHolder holder, final int position) {
 		if (stocks != null) {
 			Stock current = stocks.get(position);
-			holder.symbolTextView.setText(current.getSymbol());
 			int lowPrice = current.getLowPrice();
 			int currentPrice = current.getCurrentPrice();
 			int highPrice = current.getHighPrice();
 
+			// populate text
+			holder.symbolTextView.setText(current.getSymbol());
 			holder.lowPriceTextView.setText(priceToString(lowPrice));
 			holder.currentPriceTextView.setText(priceToString(currentPrice));
 			holder.highPriceTextView.setText(priceToString(highPrice));
 
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-				holder.progressBar.setMin(0);
-			}
+			// set progress bar
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { holder.progressBar.setMin(0); }
 			holder.progressBar.setMax(highPrice - lowPrice);
 			holder.progressBar.setProgress(currentPrice - lowPrice);
 
+			// set background color
 			if (currentPrice != 0 && currentPrice <= lowPrice) {
-				holder.symbolTextView.setBackgroundColor(context.getResources().getColor(R.color.red));
+				holder.symbolTextView.setBackgroundColor(bgColorRed);
 			} else if (currentPrice >= highPrice) {
-				holder.symbolTextView.setBackgroundColor(context.getResources().getColor(R.color.green));
+				holder.symbolTextView.setBackgroundColor(bgColorGreen);
 			} else {
-				holder.symbolTextView.setBackgroundColor(context.getResources().getColor(R.color.transparent));
+				holder.symbolTextView.setBackgroundColor(bgColorTransparent);
 			}
 
 			// set click handler to the item
