@@ -14,7 +14,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -26,6 +25,7 @@ import com.github.kaism.watchlist.db.Stock;
 import com.github.kaism.watchlist.ui.stocks.AddStockActivity;
 import com.github.kaism.watchlist.ui.stocks.StockListAdapter;
 import com.github.kaism.watchlist.ui.stocks.StockViewModel;
+import com.github.kaism.watchlist.utils.ListItemTouchHelper;
 import com.github.kaism.watchlist.utils.ScrollListener;
 import com.github.kaism.watchlist.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -80,6 +80,21 @@ public class MainActivity extends AppCompatActivity {
 		// attach adapter to recycler view
 		recyclerView.setAdapter(adapter);
 
+		// set delete item action with swipe
+		ListItemTouchHelper helper = new ListItemTouchHelper(new ListItemTouchHelper.Callback() {
+			@Override
+			public void onSwipedLeft(int position) {
+				confirmDelete(adapter.getStockAtPosition(position));
+				adapter.notifyItemChanged(position);
+			}
+		});
+		helper.attachToRecyclerView(recyclerView);
+
+
+
+
+
+
 		// set up view model and observer
 		stockViewModel = new ViewModelProvider(this).get(StockViewModel.class);
 		stockViewModel.getAllStocksLiveData().observe(this, new Observer<List<Stock>>() {
@@ -112,22 +127,12 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-		// set delete item action with swipe
-		ItemTouchHelper helper = new ItemTouchHelper(
-				new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-					@Override
-					public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-						return false;
-					}
 
-					@Override
-					public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-						int position = viewHolder.getAdapterPosition();
-						confirmDelete(adapter.getStockAtPosition(position));
-						adapter.notifyItemChanged(position);
-					}
-				});
-		helper.attachToRecyclerView(recyclerView);
+
+
+
+
+
 
 		// set up swipe to refresh
 		final MainActivity activity = this;
