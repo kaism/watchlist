@@ -76,24 +76,16 @@ public class MainActivity extends AppCompatActivity {
 				Toast.makeText(MainActivity.this, stock.getSymbol()+" clicked!", Toast.LENGTH_SHORT).show();
 			}
 		};
-
-		// attach adapter to recycler view
 		recyclerView.setAdapter(adapter);
 
 		// set delete item action with swipe
-		ListItemTouchHelper helper = new ListItemTouchHelper(new ListItemTouchHelper.Callback() {
+		new ListItemTouchHelper(new ListItemTouchHelper.Callback() {
 			@Override
 			public void onSwipedLeft(int position) {
 				confirmDelete(adapter.getStockAtPosition(position));
 				adapter.notifyItemChanged(position);
 			}
-		});
-		helper.attachToRecyclerView(recyclerView);
-
-
-
-
-
+		}).attachToRecyclerView(recyclerView);
 
 		// set up view model and observer
 		stockViewModel = new ViewModelProvider(this).get(StockViewModel.class);
@@ -118,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-		// handle add stock fab long click
+		// handle add stock fab long click (quick seed)
 		addStockButton.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
@@ -126,6 +118,11 @@ public class MainActivity extends AppCompatActivity {
 				return true;
 			}
 		});
+
+
+
+
+
 
 
 
@@ -152,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 	private void getQuotes() {
+		Log.d("KDBUG", "url: "+BuildConfig.QUOTEAPI_URL+"batch?types=quote&filter=latestPrice&token="+BuildConfig.QUOTEAPI_KEY+"&symbols="+symbolsCsv);
+
 		Call<Map<String, Quote>> call = apiInterface.getQuotes(symbolsCsv);
 		call.enqueue(new Callback<Map<String, Quote>>() {
 			@Override
