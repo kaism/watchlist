@@ -26,8 +26,8 @@ import com.github.kaism.watchlist.db.Stock;
 import com.github.kaism.watchlist.ui.stocks.AddStockActivity;
 import com.github.kaism.watchlist.ui.stocks.StockListAdapter;
 import com.github.kaism.watchlist.ui.stocks.StockViewModel;
-import com.github.kaism.watchlist.utils.Utils;
 import com.github.kaism.watchlist.utils.ScrollListener;
+import com.github.kaism.watchlist.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.ref.WeakReference;
@@ -42,7 +42,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 	private static final int REQUEST_CODE_NEW_STOCK = 100;
 	private StockViewModel stockViewModel;
-
 	private SwipeRefreshLayout swipeRefreshLayout;
 	private ApiInterface apiInterface;
 	private String symbolsCsv = "";
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		// views that toggle visibility
 		final TextView emptyTextView = findViewById(R.id.empty_text);
 		final FloatingActionButton addStockButton = findViewById(R.id.button_add_stock);
 
@@ -85,13 +85,8 @@ public class MainActivity extends AppCompatActivity {
 		stockViewModel.getAllStocksLiveData().observe(this, new Observer<List<Stock>>() {
 			@Override
 			public void onChanged(List<Stock> stocks) {
-				// update adapter
 				adapter.setStocks(stocks);
-
-				// refresh symbol list cache
 				symbolsCsv = getSymbolsCsv(stocks);
-
-				// toggle empty text
 				if (stocks.size() > 0) {
 					emptyTextView.setVisibility(View.GONE);
 				} else {
@@ -100,18 +95,15 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-		// handle add stock button
+		// handle add stock fab click
 		addStockButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				startActivityForResult(
-						new Intent(MainActivity.this, AddStockActivity.class),
-						REQUEST_CODE_NEW_STOCK
-				);
+				startActivityForResult(new Intent(MainActivity.this, AddStockActivity.class), REQUEST_CODE_NEW_STOCK);
 			}
 		});
 
-		// long click add button for quick seed
+		// handle add stock fab long click
 		addStockButton.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
