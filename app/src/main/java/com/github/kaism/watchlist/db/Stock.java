@@ -16,7 +16,7 @@ public class Stock {
 	@ColumnInfo(name = "highPrice") private int highPrice;
 	@ColumnInfo(name = "currentPrice") private int currentPrice;
 
-	public Stock(@NonNull String symbol) { this.symbol = symbol; }
+	public Stock(@NonNull String symbol) { this.symbol = symbol.trim().toUpperCase(); }
 
 	@Ignore
 	public Stock(@NonNull String symbol, int lowPrice, int highPrice) {

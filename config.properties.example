@@ -1,7 +1,9 @@
 // docs: https://iexcloud.io/docs/api/
 // base url to api (always include final '/')
-QUOTEAPI_URL="https://XXX.XXX.XXX/XXX/XXX/XXX/"
+QUOTEAPI_URL="https://cloud.iexapis.com/stable/stock/market/"
 
 // api key
 QUOTEAPI_KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
+// stocks to quick seed
+QUICKSEED_CSV="aapl,amd,amzn,atvi,baba,crm,ea,fb,goog,intc,msft,mtch,nvda,pypl,tivo,tsla,ttd,yelp,zg"

@@ -22,6 +22,7 @@ android {
 		// get api url and key from local config file
 		buildConfigField('String', 'QUOTEAPI_URL', configProperties['QUOTEAPI_URL'])
 		buildConfigField('String', 'QUOTEAPI_KEY', configProperties['QUOTEAPI_KEY'])
+		buildConfigField('String', 'QUICKSEED_CSV', configProperties['QUICKSEED_CSV'])
 	}
 	buildTypes {
 		release {

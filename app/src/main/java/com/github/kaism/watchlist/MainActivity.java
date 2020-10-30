@@ -114,19 +114,10 @@ public class MainActivity extends AppCompatActivity {
 		addStockButton.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				stockViewModel.seed();
+				stockViewModel.addSymbols(BuildConfig.QUICKSEED_CSV);
 				return true;
 			}
 		});
-
-
-
-
-
-
-
-
-
 
 
 
@@ -145,8 +136,6 @@ public class MainActivity extends AppCompatActivity {
 		apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
 	}
-
-
 
 	private void getQuotes() {
 		Log.d("KDBUG", "url: "+BuildConfig.QUOTEAPI_URL+"batch?types=quote&filter=latestPrice&token="+BuildConfig.QUOTEAPI_KEY+"&symbols="+symbolsCsv);
@@ -232,9 +221,6 @@ public class MainActivity extends AppCompatActivity {
 			}
 		}
 	}
-
-
-
 
 	private String getSymbolsCsv(List<Stock> stocks) {
 		if (stocks.size() == 0) return "";
