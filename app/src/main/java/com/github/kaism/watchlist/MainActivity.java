@@ -1,8 +1,8 @@
 package com.github.kaism.watchlist;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,11 +26,11 @@ import com.github.kaism.watchlist.ui.stocks.AddStockActivity;
 import com.github.kaism.watchlist.ui.stocks.StockListAdapter;
 import com.github.kaism.watchlist.ui.stocks.StockViewModel;
 import com.github.kaism.watchlist.utils.ListItemTouchHelper;
+import com.github.kaism.watchlist.utils.RefreshListener;
 import com.github.kaism.watchlist.utils.ScrollListener;
 import com.github.kaism.watchlist.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +42,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 	private static final int REQUEST_CODE_NEW_STOCK = 100;
 	private StockViewModel stockViewModel;
-	private SwipeRefreshLayout swipeRefreshLayout;
+	public SwipeRefreshLayout swipeRefreshLayout;
 	private ApiInterface apiInterface;
 	private String symbolsCsv = "";
 
@@ -119,25 +119,48 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-
-
-
 		// set up swipe to refresh
-		final MainActivity activity = this;
 		swipeRefreshLayout = findViewById(R.id.swipeToRefresh);
-		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+		swipeRefreshLayout.setOnRefreshListener(new RefreshListener(this) {
 			@Override
-			public void onRefresh() {
-				new Refresh(activity).execute();
+			public void onRefreshDoInBackground() {
+				getQuotes();
+			}
+
+			@Override
+			public void onRefreshPostExecute(boolean success) {
+				swipeRefreshLayout.setRefreshing(false);
+				Context context = getApplicationContext();
+				if (success) {
+					Toast.makeText(context, "Success!", Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
+
+
+
 
 		// configure api
 		apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
 	}
 
-	private void getQuotes() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public void getQuotes() {
 		Log.d("KDBUG", "url: "+BuildConfig.QUOTEAPI_URL+"batch?types=quote&filter=latestPrice&token="+BuildConfig.QUOTEAPI_KEY+"&symbols="+symbolsCsv);
 
 		Call<Map<String, Quote>> call = apiInterface.getQuotes(symbolsCsv);
@@ -194,33 +217,8 @@ public class MainActivity extends AppCompatActivity {
 		builder.show();
 	}
 
-	private static class Refresh extends AsyncTask<Void, Integer, Boolean> {
-		private WeakReference<MainActivity> activityReference;
-		Refresh(MainActivity activity) {
-			activityReference = new WeakReference<>(activity);
-		}
 
-		@Override
-		protected Boolean doInBackground(Void... voids) {
-			MainActivity activity = activityReference.get();
-			if (activity == null || activity.isFinishing()) return false;
-			activity.getQuotes();
-			return true;
-		}
 
-		protected void onPostExecute(Boolean success) {
-			MainActivity activity = activityReference.get();
-			if (activity == null || activity.isFinishing()) return;
-
-			// modify the activity's UI
-			activity.swipeRefreshLayout.setRefreshing(false);
-			if (success) {
-				Toast.makeText(activity, "Success!", Toast.LENGTH_SHORT).show();
-			} else {
-				Toast.makeText(activity, "Failed", Toast.LENGTH_SHORT).show();
-			}
-		}
-	}
 
 	private String getSymbolsCsv(List<Stock> stocks) {
 		if (stocks.size() == 0) return "";
