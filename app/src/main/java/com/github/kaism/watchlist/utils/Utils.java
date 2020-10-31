@@ -1,8 +1,21 @@
 package com.github.kaism.watchlist.utils;
 
+import com.github.kaism.watchlist.db.Stock;
+
+import java.util.List;
 import java.util.Locale;
 
 public class Utils {
+
+	public static String getSymbolsCsv(List<Stock> stocks) {
+		if (stocks.size() == 0) return "";
+		StringBuilder stringBuilder = new StringBuilder();
+		for (Stock stock : stocks) {
+			stringBuilder.append(stock.getSymbol().toLowerCase()).append(",");
+		}
+		stringBuilder.deleteCharAt(stringBuilder.length()-1);
+		return stringBuilder.toString();
+	}
 
 	public static int stringToPrice(String string) {
 		if (string != null && !string.equals("")){

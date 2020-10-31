@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onChanged(List<Stock> stocks) {
 				adapter.setStocks(stocks);
-				symbolsCsv = getSymbolsCsv(stocks);
+				symbolsCsv = Utils.getSymbolsCsv(stocks);
 				if (stocks.size() > 0) {
 					emptyTextView.setVisibility(View.GONE);
 				} else {
@@ -220,14 +220,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-	private String getSymbolsCsv(List<Stock> stocks) {
-		if (stocks.size() == 0) return "";
-		StringBuilder stringBuilder = new StringBuilder();
-		for (Stock stock : stocks) {
-			stringBuilder.append(stock.getSymbol().toLowerCase()).append(",");
-		}
-		stringBuilder.deleteCharAt(stringBuilder.length()-1);
-		return stringBuilder.toString();
-	}
+
 
 }
