@@ -9,4 +9,6 @@
 	<string name="cancel">Cancel</string>
 	<string name="delete">Delete</string>
 	<string name="error_no_quotes">No quotes</string>
+	<string name="dialog_question_confirm_delete_stock_begin">"Delete "</string>
+	<string name="dialog_question_confirm_delete_stock_end">\?</string>
 </resources>

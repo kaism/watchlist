@@ -1,7 +1,6 @@
 package com.github.kaism.watchlist;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -25,6 +23,7 @@ import com.github.kaism.watchlist.db.Stock;
 import com.github.kaism.watchlist.ui.stocks.AddStockActivity;
 import com.github.kaism.watchlist.ui.stocks.StockListAdapter;
 import com.github.kaism.watchlist.ui.stocks.StockViewModel;
+import com.github.kaism.watchlist.utils.ConfirmDeleteDialog;
 import com.github.kaism.watchlist.utils.ListItemTouchHelper;
 import com.github.kaism.watchlist.utils.RefreshListener;
 import com.github.kaism.watchlist.utils.ScrollListener;
@@ -82,7 +81,13 @@ public class MainActivity extends AppCompatActivity {
 		new ListItemTouchHelper(new ListItemTouchHelper.Callback() {
 			@Override
 			public void onSwipedLeft(int position) {
-				confirmDelete(adapter.getStockAtPosition(position));
+				final Stock stock = adapter.getStockAtPosition(position);
+				new ConfirmDeleteDialog(stock, MainActivity.this) {
+					@Override
+					public void onConfirm() {
+						stockViewModel.delete(stock);
+					}
+				}.show();
 				adapter.notifyItemChanged(position);
 			}
 		}).attachToRecyclerView(recyclerView);
@@ -203,23 +208,5 @@ public class MainActivity extends AppCompatActivity {
 			}
 		}
 	}
-
-	private void confirmDelete(final Stock stock) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this)
-				.setMessage(getString(R.string.delete)+" "+stock.getSymbol()+"?")
-				.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						stockViewModel.delete(stock);
-					}
-				})
-				.setNegativeButton(R.string.cancel, null);
-		builder.show();
-	}
-
-
-
-
-
 
 }
