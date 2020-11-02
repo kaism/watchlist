@@ -2,7 +2,7 @@ package com.github.kaism.watchlist;
 
 import com.github.kaism.watchlist.db.StockDaoTest;
 import com.github.kaism.watchlist.db.StockRepositoryTest;
-import com.github.kaism.watchlist.ui.AddStockActivityTest;
+import com.github.kaism.watchlist.ui.EditStockActivityTest;
 import com.github.kaism.watchlist.ui.MainActivityTest;
 import com.github.kaism.watchlist.ui.StockListItemTest;
 import com.github.kaism.watchlist.ui.StockListTest;
@@ -27,7 +27,7 @@ import org.junit.runners.Suite;
 		MainActivityTest.class,
 		StockListTest.class,
 		StockListItemTest.class,
-		AddStockActivityTest.class
+		EditStockActivityTest.class
 
 })
 public class TestSuite {}

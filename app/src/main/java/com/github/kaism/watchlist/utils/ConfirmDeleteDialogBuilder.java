@@ -7,14 +7,14 @@ import android.content.DialogInterface;
 import com.github.kaism.watchlist.R;
 import com.github.kaism.watchlist.db.Stock;
 
-public class ConfirmDeleteDialog extends AlertDialog.Builder {
+public class ConfirmDeleteDialogBuilder extends AlertDialog.Builder {
 
 	/**
 	 * Callback method to be invoked when confirm clicked.
 	 */
 	public void onConfirm() {}
 
-	public ConfirmDeleteDialog(Stock stock, Context context) {
+	public ConfirmDeleteDialogBuilder(Stock stock, Context context) {
 		super(context);
 
 		// build the question from symbol and translations for beginning and end of question

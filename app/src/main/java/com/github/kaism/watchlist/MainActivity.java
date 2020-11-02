@@ -17,10 +17,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.github.kaism.watchlist.api.ApiCalls;
 import com.github.kaism.watchlist.api.Quote;
 import com.github.kaism.watchlist.db.Stock;
-import com.github.kaism.watchlist.ui.stocks.AddStockActivity;
+import com.github.kaism.watchlist.ui.stocks.EditStockActivity;
 import com.github.kaism.watchlist.ui.stocks.StockListAdapter;
 import com.github.kaism.watchlist.ui.stocks.StockViewModel;
-import com.github.kaism.watchlist.utils.ConfirmDeleteDialog;
+import com.github.kaism.watchlist.utils.ConfirmDeleteDialogBuilder;
 import com.github.kaism.watchlist.utils.ListItemTouchHelper;
 import com.github.kaism.watchlist.utils.RefreshListener;
 import com.github.kaism.watchlist.utils.ScrollListener;
@@ -42,11 +42,8 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// views that toggle visibility
-		final TextView emptyTextView = findViewById(R.id.empty_text);
-		final FloatingActionButton addStockButton = findViewById(R.id.button_add_stock);
-
 		// set up recycler view and scroll action
+		final FloatingActionButton addStockButton = findViewById(R.id.button_add_stock);
 		RecyclerView recyclerView = findViewById(R.id.recycler_view);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 		recyclerView.addOnScrollListener(new ScrollListener() {
@@ -74,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onSwipedLeft(int position) {
 				final Stock stock = adapter.getStockAtPosition(position);
-				new ConfirmDeleteDialog(stock, MainActivity.this) {
+				new ConfirmDeleteDialogBuilder(stock, MainActivity.this) {
 					@Override
 					public void onConfirm() {
 						stockViewModel.delete(stock);
@@ -85,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
 		}).attachToRecyclerView(recyclerView);
 
 		// set up view model and observer
+		final TextView emptyTextView = findViewById(R.id.empty_text);
 		stockViewModel = new ViewModelProvider(this).get(StockViewModel.class);
 		stockViewModel.getAllStocksLiveData().observe(this, new Observer<List<Stock>>() {
 			@Override
@@ -153,9 +151,9 @@ public class MainActivity extends AppCompatActivity {
 
 		// handle add new stock
 		if (requestCode == REQUEST_CODE_NEW_STOCK && resultCode == RESULT_OK) {
-			String symbol = data.getStringExtra(AddStockActivity.SYMBOL);
-			int lowPrice = data.getIntExtra(AddStockActivity.LOW_PRICE, 0);
-			int highPrice = data.getIntExtra(AddStockActivity.HIGH_PRICE, 0);
+			String symbol = data.getStringExtra(EditStockActivity.SYMBOL);
+			int lowPrice = data.getIntExtra(EditStockActivity.LOW_PRICE, 0);
+			int highPrice = data.getIntExtra(EditStockActivity.HIGH_PRICE, 0);
 			if (symbol != null && !symbol.equals("")) {
 				Stock stock = new Stock(symbol);
 				stock.setLowPrice(lowPrice);

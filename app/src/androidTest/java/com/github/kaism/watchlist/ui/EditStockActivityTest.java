@@ -20,7 +20,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-public class AddStockActivityTest {
+public class EditStockActivityTest {
 	private String symbol = "AMD";
 	private String low_price = "34.81";
 	private String high_price = "119.93";
@@ -36,7 +36,7 @@ public class AddStockActivityTest {
 	@Test
 	public void verifyDisplay() {
 		// verify activity title is displayed
-		onView(withText(R.string.add_stock_activity_title)).check(matches(isDisplayed()));
+		onView(withText(R.string.edit_stock_activity_title)).check(matches(isDisplayed()));
 
 		// verify up arrow is displayed
 		onView(withContentDescription(R.string.abc_action_bar_up_description)).check(matches(isDisplayed()));
@@ -65,7 +65,7 @@ public class AddStockActivityTest {
 	@Test
 	public void fillInAddStockForm() {
 		// verify activity title is displayed
-		onView(withText(R.string.add_stock_activity_title)).check(matches(isDisplayed()));
+		onView(withText(R.string.edit_stock_activity_title)).check(matches(isDisplayed()));
 
 		// enter a symbol
 		onView(withId(R.id.symbol)).check(matches(isDisplayed())).perform(typeText(symbol));

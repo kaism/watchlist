@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.github.kaism.watchlist.R;
 import com.github.kaism.watchlist.utils.Utils;
 
-public class AddStockActivity extends AppCompatActivity {
+public class EditStockActivity extends AppCompatActivity {
 	// bundle key constants
 	public static final String SYMBOL = "com.github.kaism.watchlist.SYMBOL";
 	public static final String LOW_PRICE = "com.github.kaism.watchlist.LOW_PRICE";
@@ -19,7 +19,7 @@ public class AddStockActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_stock);
+		setContentView(R.layout.activity_edit_stock);
 
 		setOnClickListeners();
 	}

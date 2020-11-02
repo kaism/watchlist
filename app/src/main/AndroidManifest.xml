@@ -12,8 +12,8 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
 		<activity
-			android:name=".ui.stocks.AddStockActivity"
-			android:label="@string/add_stock_activity_title"
+			android:name=".ui.stocks.EditStockActivity"
+			android:label="@string/edit_stock_activity_title"
 			android:parentActivityName=".MainActivity" />
 		<activity android:name=".MainActivity">
 			<intent-filter>
