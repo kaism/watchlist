@@ -20,6 +20,7 @@ import com.github.kaism.watchlist.db.Stock;
 import com.github.kaism.watchlist.ui.stocks.EditStockActivity;
 import com.github.kaism.watchlist.ui.stocks.StockListAdapter;
 import com.github.kaism.watchlist.ui.stocks.StockViewModel;
+import com.github.kaism.watchlist.utils.AddStockDialogBuilder;
 import com.github.kaism.watchlist.utils.ConfirmDeleteDialogBuilder;
 import com.github.kaism.watchlist.utils.ListItemTouchHelper;
 import com.github.kaism.watchlist.utils.RefreshListener;
@@ -101,7 +102,18 @@ public class MainActivity extends AppCompatActivity {
 		addStockButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				startActivityForResult(new Intent(MainActivity.this, AddStockActivity.class), REQUEST_CODE_NEW_STOCK);
+				new AddStockDialogBuilder(MainActivity.this) {
+					@Override
+					public void onAdd(String symbol) {
+						if (symbol != null && !symbol.equals("")) {
+							Toast.makeText(MainActivity.this, "adding "+symbol, Toast.LENGTH_SHORT).show();
+
+//							Intent intent = new Intent(MainActivity.this, EditStockActivity.class);
+//							intent.putExtra(EditStockActivity.SYMBOL, symbol);
+//							startActivity(intent);
+						}
+					}
+				}.show();
 			}
 		});
 
