@@ -107,7 +107,8 @@ public final class ViewMatchers {
 			int actualValue = progressBar.getProgress();
 			actualPercent = (int) Math.round((actualValue*1.0/max)*100);
 
-			rangeText = " (value " + actualValue + " in range " + progressBar.getMin() + " - " + max + ")";
+
+			rangeText = " (value " + actualValue + " in range 0 - " + max + ")";
 
 			return actualPercent == percent;
 		}
