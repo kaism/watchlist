@@ -3,6 +3,6 @@
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<item android:id="@+id/autoRefresh"
 		app:showAsAction="always"
-		android:icon="@drawable/ic_auto_refresh_dark"
+		android:icon="@drawable/ic_auto_refresh_off"
 		android:title="@string/menu_turn_auto_refresh_on" />
 </menu>
