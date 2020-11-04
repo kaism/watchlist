@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -157,7 +159,32 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
+		setMenuItemStatus(menu.findItem(R.id.autoRefresh), Preferences.getPreferences(this).autoUpdate());
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(@NonNull MenuItem menuItem) {
+		super.onOptionsItemSelected(menuItem);
+		if (menuItem.getItemId() == R.id.autoRefresh) {
+			Preferences.setAutoUpdate(this, !Preferences.getPreferences(this).autoUpdate());
+			setMenuItemStatus(menuItem, Preferences.getPreferences(this).autoUpdate());
+		} else {
+			return super.onOptionsItemSelected(menuItem);
+		}
+		return true;
+	}
+
+	private void setMenuItemStatus(MenuItem menuItem, boolean active) {
+		if (menuItem.getItemId() == R.id.autoRefresh) {
+			if (active) {
+				menuItem.setIcon(R.drawable.ic_auto_refresh_on);
+				menuItem.setTitle(R.string.menu_turn_auto_refresh_off);
+			} else {
+				menuItem.setIcon(R.drawable.ic_auto_refresh_off);
+				menuItem.setTitle(R.string.menu_turn_auto_refresh_on);
+			}
+		}
 	}
 
 }
