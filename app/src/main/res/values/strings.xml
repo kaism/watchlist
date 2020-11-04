@@ -12,4 +12,6 @@
 	<string name="delete">Delete</string>
 	<string name="dialog_question_confirm_delete_stock_begin">"Delete "</string>
 	<string name="dialog_question_confirm_delete_stock_end">\?</string>
+	<string name="menu_turn_auto_refresh_on">Turn auto refresh on</string>
+	<string name="menu_turn_auto_refresh_off">Turn auto refresh off</string>
 </resources>
