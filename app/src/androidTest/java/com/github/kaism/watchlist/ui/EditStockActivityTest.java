@@ -31,6 +31,8 @@ public class EditStockActivityTest {
 	@Before
 	public void getHereFromMainActivity() {
 		onView(withId(R.id.button_add_stock)).perform(click());
+		onView(withId(R.id.dialogAddStockSymbol)).perform(typeText(symbol));
+		onView(withText(R.string.add)).perform(click());
 	}
 
 	@Test
@@ -42,7 +44,7 @@ public class EditStockActivityTest {
 		onView(withContentDescription(R.string.abc_action_bar_up_description)).check(matches(isDisplayed()));
 
 		// verify form elements are displayed
-		onView(withId(R.id.symbol)).check(matches(isDisplayed()));
+		onView(withId(R.id.symbol)).check(matches(isDisplayed())).check(matches(withText(symbol)));
 		onView(withId(R.id.lowPrice)).check(matches(isDisplayed()));
 		onView(withId(R.id.highPrice)).check(matches(isDisplayed()));
 		onView(withText(R.string.save)).check(matches(isDisplayed()));
@@ -63,37 +65,17 @@ public class EditStockActivityTest {
 	}
 
 	@Test
-	public void fillInAddStockForm() {
-		// verify activity title is displayed
-		onView(withText(R.string.edit_stock_activity_title)).check(matches(isDisplayed()));
-
-		// enter a symbol
-		onView(withId(R.id.symbol)).check(matches(isDisplayed())).perform(typeText(symbol));
-
-		// enter a low price
+	public void fillInForm() {
+		// enter prices
 		onView(withId(R.id.lowPrice)).check(matches(isDisplayed())).perform(typeText(low_price));
-
-		// enter a high price
 		onView(withId(R.id.highPrice)).check(matches(isDisplayed())).perform(typeText(high_price));
 
 		// verify entered text
-		onView(withText(symbol)).check(matches(isDisplayed()));
 		onView(withText(low_price)).check(matches(isDisplayed()));
 		onView(withText(high_price)).check(matches(isDisplayed()));
 
-		// verify save button is displayed
-		onView(withText(R.string.save)).check(matches(isDisplayed()));
-	}
-
-	@Test
-	public void addStock() {
-		// fill in form
-		onView(withId(R.id.symbol)).perform(typeText(symbol));
-		onView(withId(R.id.lowPrice)).perform(typeText(low_price));
-		onView(withId(R.id.highPrice)).perform(typeText(high_price));
-
 		// click save
-		onView(withText(R.string.save)).perform(click());
+		onView(withText(R.string.save)).check(matches(isDisplayed())).perform(click());
 
 		// verify we are back at main activity
 		onView(withText(R.string.app_name)).check(matches(isDisplayed()));

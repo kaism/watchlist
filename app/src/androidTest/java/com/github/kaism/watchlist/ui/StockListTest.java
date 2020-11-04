@@ -1,7 +1,5 @@
 package com.github.kaism.watchlist.ui;
 
-import android.os.SystemClock;
-
 import com.github.kaism.watchlist.R;
 import com.github.kaism.watchlist.db.Stock;
 import com.github.kaism.watchlist.db.StockRepository;
@@ -78,8 +76,6 @@ public class StockListTest {
 		// scroll up
 		onView(withId(R.id.recycler_view)).perform(swipeUp());
 
-		SystemClock.sleep(2000);
-
 		// verify button to add a stock is not displayed
 		onView(withId(R.id.button_add_stock)).check(matches(not(isDisplayed())));
 
@@ -88,8 +84,6 @@ public class StockListTest {
 
 		// verify button to add a stock is displayed
 		onView(withId(R.id.button_add_stock)).check(matches(isDisplayed()));
-
-		SystemClock.sleep(2000);
 	}
 
 }

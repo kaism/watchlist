@@ -33,7 +33,6 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-	private static final int REQUEST_CODE_NEW_STOCK = 100;
 	private StockViewModel stockViewModel;
 	public SwipeRefreshLayout swipeRefreshLayout;
 	private String symbolsCsv = "";
@@ -62,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
 		final StockListAdapter adapter = new StockListAdapter(this) {
 			@Override
 			public void onItemClicked(Stock stock) {
-				Toast.makeText(MainActivity.this, stock.getSymbol()+" clicked!", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(MainActivity.this, EditStockActivity.class);
+				intent.putExtra(EditStockActivity.SYMBOL, stock.getSymbol());
+				startActivity(intent);
 			}
 		};
 		recyclerView.setAdapter(adapter);
@@ -106,11 +107,9 @@ public class MainActivity extends AppCompatActivity {
 					@Override
 					public void onAdd(String symbol) {
 						if (symbol != null && !symbol.equals("")) {
-							Toast.makeText(MainActivity.this, "adding "+symbol, Toast.LENGTH_SHORT).show();
-
-//							Intent intent = new Intent(MainActivity.this, EditStockActivity.class);
-//							intent.putExtra(EditStockActivity.SYMBOL, symbol);
-//							startActivity(intent);
+							Intent intent = new Intent(MainActivity.this, EditStockActivity.class);
+							intent.putExtra(EditStockActivity.SYMBOL, symbol);
+							startActivity(intent);
 						}
 					}
 				}.show();
@@ -152,30 +151,6 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-	}
-
-
-
-
-
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		// handle add new stock
-		if (requestCode == REQUEST_CODE_NEW_STOCK && resultCode == RESULT_OK) {
-			String symbol = data.getStringExtra(EditStockActivity.SYMBOL);
-			int lowPrice = data.getIntExtra(EditStockActivity.LOW_PRICE, 0);
-			int highPrice = data.getIntExtra(EditStockActivity.HIGH_PRICE, 0);
-			if (symbol != null && !symbol.equals("")) {
-				Stock stock = new Stock(symbol);
-				stock.setLowPrice(lowPrice);
-				stock.setHighPrice(highPrice);
-				stockViewModel.save(stock);
-				Toast.makeText(getApplicationContext(), symbol + " added", Toast.LENGTH_LONG).show();
-			} else {
-				Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
-			}
-		}
 	}
 
 }

@@ -1,52 +1,73 @@
 package com.github.kaism.watchlist.ui.stocks;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.kaism.watchlist.R;
+import com.github.kaism.watchlist.db.Stock;
 import com.github.kaism.watchlist.utils.Utils;
 
 public class EditStockActivity extends AppCompatActivity {
 	// bundle key constants
 	public static final String SYMBOL = "com.github.kaism.watchlist.SYMBOL";
-	public static final String LOW_PRICE = "com.github.kaism.watchlist.LOW_PRICE";
-	public static final String HIGH_PRICE = "com.github.kaism.watchlist.HIGH_PRICE";
+
+	Stock mStock;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_stock);
 
-		setOnClickListeners();
-	}
+		// get symbol
+		final String symbol;
+		if (savedInstanceState != null) {
+			symbol = savedInstanceState.getString(SYMBOL);
+		} else {
+			symbol = getIntent().getStringExtra(SYMBOL);
+		}
 
-	private void setOnClickListeners() {
+		// set symbol text
+		TextView symbolTextView = findViewById(R.id.symbol);
+		symbolTextView.setText(symbol);
+
+		// initialize views
+		final TextView lowPriceEditText = findViewById(R.id.lowPrice);
+		final TextView highPriceEditText = findViewById(R.id.highPrice);
+
+		// set up view model and observer
+		final StockViewModel stockViewModel = new ViewModelProvider(this).get(StockViewModel.class);
+		stockViewModel.getStockBySymbolLiveData(symbol).observe(this, new Observer<Stock>() {
+			@Override
+			public void onChanged(Stock stock) {
+				if (stock == null) { return; }
+				mStock = stock;
+				if (stock.getLowPrice() > 0) {
+					lowPriceEditText.setHint(null);
+					lowPriceEditText.setText(Utils.priceToString(stock.getLowPrice()));
+				}
+				if (stock.getHighPrice() > 0) {
+					lowPriceEditText.setHint(null);
+					highPriceEditText.setText(Utils.priceToString(stock.getHighPrice()));
+				}
+			}
+		});
+
 		// handle save stock
 		findViewById(R.id.save_stock).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				String symbol = getString((EditText) findViewById(R.id.symbol)).toUpperCase();
-				int lowPrice = Utils.stringToPrice(getString((EditText) findViewById(R.id.lowPrice)));
-				int highPrice = Utils.stringToPrice(getString((EditText) findViewById(R.id.highPrice)));
-
-				// return data to main activity
-				Intent replyIntent = new Intent();
-				replyIntent.putExtra(SYMBOL, symbol);
-				replyIntent.putExtra(LOW_PRICE, lowPrice);
-				replyIntent.putExtra(HIGH_PRICE, highPrice);
-				setResult(RESULT_OK, replyIntent);
-
+				if (mStock == null) { mStock = new Stock(symbol); }
+				mStock.setLowPrice(lowPriceEditText.getText().toString());
+				mStock.setHighPrice(highPriceEditText.getText().toString());
+				stockViewModel.save(mStock);
 				finish();
 			}
 		});
-	}
-
-	private String getString(EditText editText) {
-		return editText.getText().toString();
 	}
 
 }

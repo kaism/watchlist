@@ -12,6 +12,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -35,6 +36,8 @@ public class StockListItemTest {
 		stockRepository = TestHelper.getRepository();
 		backupStocks = stockRepository.getStocks();
 		TestHelper.deleteStocks(stockRepository, backupStocks);
+
+		stockRepository.save(stock);
 	}
 
 	@After
@@ -45,9 +48,6 @@ public class StockListItemTest {
 
 	@Test
 	public void itemUnknownPrice() {
-		// insert stock
-		stockRepository.save(stock);
-
 		// verify symbol
 		onView(withId(R.id.symbol)).check(matches(isDisplayed())).check(matches(withText(symbol))).check(matches(withBackgroundColor(R.color.transparent)));
 
@@ -62,9 +62,6 @@ public class StockListItemTest {
 
 	@Test
 	public void itemPriceInRange() {
-		// insert stock
-		stockRepository.save(stock);
-
 		// set current price to halfway
 		int currentPriceInt = (lowPriceInt + highPriceInt) / 2;
 		String currentPriceString = Utils.priceToString(currentPriceInt);
@@ -84,8 +81,6 @@ public class StockListItemTest {
 
 	@Test
 	public void itemPriceBelowRange() {
-		stockRepository.save(stock);
-
 		int currentPriceInt = lowPriceInt - 1;
 		String currentPriceString = Utils.priceToString(currentPriceInt);
 		stockRepository.updatePrice(stock.getSymbol(), currentPriceInt);
@@ -104,8 +99,6 @@ public class StockListItemTest {
 
 	@Test
 	public void itemPriceAboveRange() {
-		stockRepository.save(stock);
-
 		int currentPriceInt = highPriceInt + 1;
 		String currentPriceString = Utils.priceToString(currentPriceInt);
 		stockRepository.updatePrice(stock.getSymbol(), currentPriceInt);
@@ -120,6 +113,15 @@ public class StockListItemTest {
 		onView(withId(R.id.lowPriceText)).check(matches(isDisplayed())).check(matches(withText(lowPriceString)));
 		onView(withId(R.id.highPriceText)).check(matches(isDisplayed())).check(matches(withText(highPriceString)));
 		onView(withId(R.id.currentPriceText)).check(matches(isDisplayed())).check(matches(withText(currentPriceString)));
+	}
+
+	@Test
+	public void clickOnItem() {
+		// click on item
+		onView(withId(R.id.list_item)).perform(click());
+
+		// verify activity title is displayed
+		onView(withText(R.string.edit_stock_activity_title)).check(matches(isDisplayed()));
 	}
 
 }
