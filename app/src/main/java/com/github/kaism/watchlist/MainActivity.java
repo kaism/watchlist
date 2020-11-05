@@ -31,6 +31,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -151,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
-		setMenuItemStatus(menu.findItem(R.id.autoRefresh), Preferences.getPreferences(this).autoUpdate());
+		setAutoRefreshStatus(menu.findItem(R.id.autoRefresh), Preferences.getPreferences(this).autoUpdate());
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -160,23 +163,57 @@ public class MainActivity extends AppCompatActivity {
 		super.onOptionsItemSelected(menuItem);
 		if (menuItem.getItemId() == R.id.autoRefresh) {
 			Preferences.setAutoUpdate(this, !Preferences.getPreferences(this).autoUpdate());
-			setMenuItemStatus(menuItem, Preferences.getPreferences(this).autoUpdate());
+			setAutoRefreshStatus(menuItem, Preferences.getPreferences(this).autoUpdate());
 		} else {
 			return super.onOptionsItemSelected(menuItem);
 		}
 		return true;
 	}
 
-	private void setMenuItemStatus(MenuItem menuItem, boolean active) {
+	private void setAutoRefreshStatus(MenuItem menuItem, boolean active) {
 		if (menuItem.getItemId() == R.id.autoRefresh) {
 			if (active) {
 				menuItem.setIcon(R.drawable.ic_auto_refresh_on);
 				menuItem.setTitle(R.string.menu_turn_auto_refresh_off);
+				setTimerOn();
 			} else {
 				menuItem.setIcon(R.drawable.ic_auto_refresh_off);
 				menuItem.setTitle(R.string.menu_turn_auto_refresh_on);
+				setTimerOff();
 			}
 		}
+	}
+
+
+	private Timer autoRefreshTimer;
+	private int timerDelay = (3*1000);
+
+	private final TimerTask timerTask = new TimerTask() {
+		@Override
+		public void run() {
+			if (!allPricesAreCurrent()) {
+				int randomNum = ThreadLocalRandom.current().nextInt(7000, 10000 + 1);
+				stockViewModel.updatePrice("AMD", randomNum);
+			}
+		}
+	};
+
+	private void setTimerOn() {
+		if (autoRefreshTimer == null) {
+			autoRefreshTimer = new Timer();
+		}
+		autoRefreshTimer.schedule(timerTask, 3000, timerDelay);
+	}
+
+	private void setTimerOff() {
+		if (autoRefreshTimer != null) {
+			autoRefreshTimer.cancel();
+			autoRefreshTimer = null;
+		}
+	}
+
+	private boolean allPricesAreCurrent() {
+		return false;
 	}
 
 }
