@@ -27,8 +27,8 @@ public interface StockDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	void insert(Stock stock);
 
-	@Query("UPDATE stocks SET currentPrice = :price WHERE symbol = :symbol")
-	void updatePrice(String symbol, int price);
+	@Query("UPDATE stocks SET currentPrice = :price, currentPriceLastUpdated = :time WHERE symbol = :symbol")
+	void updatePrice(String symbol, int price, int time);
 
 	@Delete
 	void delete(Stock stock);

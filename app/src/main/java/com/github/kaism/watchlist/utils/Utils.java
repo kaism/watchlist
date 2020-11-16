@@ -7,6 +7,10 @@ import java.util.Locale;
 
 public class Utils {
 
+	public static int getTimeInMinutes() {
+		return (int) System.currentTimeMillis()/1000/60;
+	}
+
 	public static String getSymbolsCsv(List<Stock> stocks) {
 		if (stocks.size() == 0) return "";
 		StringBuilder stringBuilder = new StringBuilder();

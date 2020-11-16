@@ -15,6 +15,7 @@ public class Stock {
 	@ColumnInfo(name = "lowPrice") private int lowPrice;
 	@ColumnInfo(name = "highPrice") private int highPrice;
 	@ColumnInfo(name = "currentPrice") private int currentPrice;
+	@ColumnInfo(name = "currentPriceLastUpdated") private int currentPriceLastUpdated;
 
 	public Stock(@NonNull String symbol) { this.symbol = symbol.trim().toUpperCase(); }
 
@@ -29,10 +30,16 @@ public class Stock {
 	public int getLowPrice() { return lowPrice; }
 	public int getCurrentPrice() { return currentPrice; }
 	public int getHighPrice() { return highPrice; }
+	public int getCurrentPriceLastUpdated() { return currentPriceLastUpdated; }
 
+	public void setSymbol(@NonNull String symbol) { this.symbol = symbol; }
 	public void setLowPrice(int price) { lowPrice = price; }
 	public void setHighPrice(int price) { highPrice = price; }
-	public void setCurrentPrice(int price) { currentPrice = price; }
+	public void setCurrentPrice(int price) {
+		currentPrice = price;
+		setCurrentPriceLastUpdated(Utils.getTimeInMinutes());
+	}
+	public void setCurrentPriceLastUpdated(int minutes) { currentPriceLastUpdated = minutes; }
 
 	public void setLowPrice(String price) { lowPrice = Utils.stringToPrice(price); }
 	public void setHighPrice(String price) { highPrice = Utils.stringToPrice(price); }

@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import com.github.kaism.watchlist.utils.Utils;
+
 import java.util.List;
 
 public class StockRepository {
@@ -50,16 +52,18 @@ public class StockRepository {
 		private StockDao asyncTaskDao;
 		private String symbol;
 		private int price;
+		private int time;
 
 		updatePriceAsyncTask(StockDao dao, String symbol, int price) {
 			asyncTaskDao = dao;
 			this.symbol = symbol;
 			this.price = price;
+			this.time = Utils.getTimeInMinutes();
 		}
 
 		@Override
 		protected Void doInBackground(final String... params) {
-			asyncTaskDao.updatePrice(symbol, price);
+			asyncTaskDao.updatePrice(symbol, price, time);
 			return null;
 		}
 	}
