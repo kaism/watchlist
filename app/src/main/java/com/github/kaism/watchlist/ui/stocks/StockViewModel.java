@@ -22,6 +22,10 @@ public class StockViewModel extends AndroidViewModel {
 		return stockRepository.getStocksLiveData();
 	}
 
+	public List<Stock> getAllStocks() {
+		return stockRepository.getStocks();
+	}
+
 	public LiveData<Stock> getStockBySymbolLiveData(String symbol) {
 		return stockRepository.getStockBySymbolLiveData(symbol);
 	}

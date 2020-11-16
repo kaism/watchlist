@@ -15,31 +15,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.github.kaism.watchlist.api.ApiCalls;
-import com.github.kaism.watchlist.api.Quote;
 import com.github.kaism.watchlist.db.Stock;
 import com.github.kaism.watchlist.ui.stocks.EditStockActivity;
 import com.github.kaism.watchlist.ui.stocks.StockListAdapter;
 import com.github.kaism.watchlist.ui.stocks.StockViewModel;
-import com.github.kaism.watchlist.utils.AddStockDialogBuilder;
-import com.github.kaism.watchlist.utils.ConfirmDeleteDialogBuilder;
-import com.github.kaism.watchlist.utils.ListItemTouchHelper;
-import com.github.kaism.watchlist.utils.RefreshListener;
-import com.github.kaism.watchlist.utils.ScrollListener;
+import com.github.kaism.watchlist.ui.stocks.AddStockDialogBuilder;
+import com.github.kaism.watchlist.ui.ConfirmDeleteDialogBuilder;
+import com.github.kaism.watchlist.ui.ListItemTouchHelper;
+import com.github.kaism.watchlist.utils.PricesRefresher;
+import com.github.kaism.watchlist.ui.ScrollListener;
 import com.github.kaism.watchlist.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ThreadLocalRandom;
 
 
 public class MainActivity extends AppCompatActivity {
 	private StockViewModel stockViewModel;
-	public SwipeRefreshLayout swipeRefreshLayout;
-	private String symbolsCsv = "";
+	private StockListAdapter adapter;
+	private PricesRefresher pricesRefresher;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 		});
 
 		// set up adapter and item click action
-		final StockListAdapter adapter = new StockListAdapter(this) {
+		adapter = new StockListAdapter(this) {
 			@Override
 			public void onItemClicked(Stock stock) {
 				Intent intent = new Intent(MainActivity.this, EditStockActivity.class);
@@ -94,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onChanged(List<Stock> stocks) {
 				adapter.setStocks(stocks);
-				symbolsCsv = Utils.getSymbolsCsv(stocks);
+				pricesRefresher.setSymbolsCsv(Utils.getSymbolsCsv(stocks));
 				if (stocks.size() > 0) {
 					emptyTextView.setVisibility(View.GONE);
 				} else {
@@ -102,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
 				}
 			}
 		});
+
+		// set up refresher
+		pricesRefresher = new PricesRefresher(this, stockViewModel, (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh));
 
 		// handle add stock fab click
 		addStockButton.setOnClickListener(new View.OnClickListener() {
@@ -128,27 +125,6 @@ public class MainActivity extends AppCompatActivity {
 				return true;
 			}
 		});
-
-		// set up swipe to refresh
-		swipeRefreshLayout = findViewById(R.id.swipeToRefresh);
-		swipeRefreshLayout.setOnRefreshListener(new RefreshListener(this) {
-			@Override
-			public void onRefreshDoInBackground() {
-				ApiCalls.getQuotes(symbolsCsv).enqueue(new ApiCalls.QuotesCallback() {
-					@Override
-					public void onQuotesReceived(ArrayList<Quote> quotes) {
-						for (Quote quote : quotes) {
-							stockViewModel.updatePrice(quote.getSymbol(), Utils.stringToPrice(quote.getPrice()));
-						}
-					}
-				});
-			}
-			@Override
-			public void onRefreshPostExecute(boolean success) {
-				swipeRefreshLayout.setRefreshing(false);
-			}
-		});
-
 	}
 
 	@Override
@@ -175,45 +151,13 @@ public class MainActivity extends AppCompatActivity {
 			if (active) {
 				menuItem.setIcon(R.drawable.ic_auto_refresh_on);
 				menuItem.setTitle(R.string.menu_turn_auto_refresh_off);
-				setTimerOn();
+				pricesRefresher.setAutoRefreshTimerOn();
 			} else {
 				menuItem.setIcon(R.drawable.ic_auto_refresh_off);
 				menuItem.setTitle(R.string.menu_turn_auto_refresh_on);
-				setTimerOff();
+				pricesRefresher.setAutoRefreshTimerOff();
 			}
 		}
-	}
-
-
-	private Timer autoRefreshTimer;
-	private int timerDelay = (3*1000);
-
-	private final TimerTask timerTask = new TimerTask() {
-		@Override
-		public void run() {
-			if (!allPricesAreCurrent()) {
-				int randomNum = ThreadLocalRandom.current().nextInt(7000, 10000 + 1);
-				stockViewModel.updatePrice("AMD", randomNum);
-			}
-		}
-	};
-
-	private void setTimerOn() {
-		if (autoRefreshTimer == null) {
-			autoRefreshTimer = new Timer();
-		}
-		autoRefreshTimer.schedule(timerTask, 3000, timerDelay);
-	}
-
-	private void setTimerOff() {
-		if (autoRefreshTimer != null) {
-			autoRefreshTimer.cancel();
-			autoRefreshTimer = null;
-		}
-	}
-
-	private boolean allPricesAreCurrent() {
-		return false;
 	}
 
 }

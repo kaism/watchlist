@@ -1,4 +1,4 @@
-package com.github.kaism.watchlist.utils;
+package com.github.kaism.watchlist.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.github.kaism.watchlist.utils;
+package com.github.kaism.watchlist.ui;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;

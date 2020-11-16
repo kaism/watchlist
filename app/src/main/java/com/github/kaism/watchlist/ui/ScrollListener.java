@@ -1,4 +1,4 @@
-package com.github.kaism.watchlist.utils;
+package com.github.kaism.watchlist.ui;
 
 import android.util.Log;
 
@@ -29,13 +29,6 @@ public class ScrollListener extends RecyclerView.OnScrollListener {
 			Log.d(TAG, "onScrolled: scrolling down");
 			onScrollDown();
 		}
-	}
-
-	@Override
-	public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-		boolean isScrolling = newState != RecyclerView.SCROLL_STATE_IDLE;
-		if (isScrolling) Log.d(TAG, "onScrollStateChanged: scrolling");
-		else Log.d(TAG, "onScrollStateChanged: idle");
 	}
 
 }
