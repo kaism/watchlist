@@ -1,0 +1,1 @@
+Feature: Ability to edit a stock in list

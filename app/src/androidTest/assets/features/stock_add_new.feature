@@ -1,0 +1,1 @@
+Feature: Ability to add a new stock to list
